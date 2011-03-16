@@ -8,12 +8,12 @@
     <!-- 
     <include package="plone.browserlayer" />
     -->
+
     <browser:viewlet
-        name="kwetter"
+        name="nfg.kwetter.timeline"
 	manager="plone.app.layout.viewlets.interfaces.IBelowContentBody"
-	layer=".interfaces.IThemeSpecific"
-        permission="zope.Public"
-        template="templates/kwetter.pt"
+	class=".viewlets.KwetterTimeLine"
+        permission="zope2.View"
         />
 
 </configure>
