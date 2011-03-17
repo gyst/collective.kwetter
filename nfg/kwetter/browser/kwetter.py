@@ -189,6 +189,8 @@ class Kwetter(BrowserView):
         avatar = self.request.get('avatar')
         message = self.request.get('message')
         since = self.request.get('since')
+        follow = self.request.get('follow')
+        unfollow = self.request.get('unfollow')
         search = self.request.get('searchableText')
         limit = self.request.get('limit',10)
 
@@ -201,6 +203,10 @@ class Kwetter(BrowserView):
                 check = client.rereg(avatar, avatar, self.member.fullname)
         if command == 'post':
             result = client.post(avatar, message)
+        elif command == 'follow':
+            result = client.follow(avatar, follow)
+        elif command == 'unfollow':
+            result = client.unfollow(avatar, unfollow)
         elif command == 'timeline':
             result = client.timeline(avatar, since)
         elif command == 'search':
