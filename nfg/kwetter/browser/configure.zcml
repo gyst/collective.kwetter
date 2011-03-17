@@ -23,4 +23,9 @@
         permission="zope2.View"
         />
 
+    <browser:resourceDirectory
+	name="nfg.kwetter.scripts"
+	directory="scripts"
+     />
+
 </configure>

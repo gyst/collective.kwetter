@@ -2,34 +2,17 @@
 	<b>Kwetter Timeline for ...<label tal:content="python: view.member.fullname"/></b>
 		<form id="timeline" tal:attributes="action python:'%s/kwetter' % view.portal_url">
 			<input type="hidden" name="a" tal:attributes="value python:view.member.getId()"/>
-			<input type="text" name="m" placeholder="What's up..."/>
-			<input type="submit" value="Share"/>
+			<textarea rows="3" cols="20" type="text" name="m" placeholder="What's up..."></textarea>
+			<span id="charsAllowed">140</span>
+			<input type="submit" class="allowMultiSubmit" value="Share"/>
 		</form>
 		<div id="result"></div>
 	<script type="text/javascript">
-
-var action = $('#timeline').attr("action");
-
-$('#timeline').submit(function(event) {
-		event.preventDefault();
-		var $form = $(this);
-		message = $form.find('input[name="m"]').val();
-		avatar = $form.find('input[name="a"]').val();
-		$.post(action, {avatar:avatar, command:'post', message:message},
-			function(data) {
-				timeline(avatar);
-			});
-		});
-
-
-function timeline(avatar)
-{
-	$.post(action, { avatar: avatar, command: 'timeline', since: '2010-12-31 12:00:00', }, 
-			function(data) {
-			$('#result').html(data);
-			});
-}
-
+var form = $('#timeline')
+var avatar = form.find('input[name="a"]');
+var message = form.find('textarea[name="m"]');
+form.submit(kwetter_post);
+kwetter_timeline(avatar);
+kwetter_clear(message);
 	</script>
-
 </div>
