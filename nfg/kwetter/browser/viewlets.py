@@ -2,6 +2,7 @@
 from zope.component import getMultiAdapter
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone.app.layout.viewlets.common import ViewletBase
+from Products.CMFCore.utils import getToolByName
 
 class KwetterTimeLine(ViewletBase):
     render = ViewPageTemplateFile('templates/timeline.pt')
@@ -13,6 +14,7 @@ class KwetterTimeLine(ViewletBase):
         self.view = view
         self.manager = manager
         self.portal_state = getMultiAdapter((context, self.request), name=u"plone_portal_state")
+        self.utool = getToolByName(self, 'portal_url')
 
     def update(self):
         self.timeline = 'test'
@@ -25,3 +27,6 @@ class KwetterTimeLine(ViewletBase):
     def member(self):
         return self.portal_state.member()
 
+    @property
+    def portal_url(self):
+        return self.utool.getPortalPath()

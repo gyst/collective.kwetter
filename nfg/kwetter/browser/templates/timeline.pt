@@ -1,6 +1,6 @@
 <div tal:condition="python:not view.isAnon">
 	<b>Kwetter Timeline for ...<label tal:content="python: view.member.fullname"/></b>
-		<form id="timeline">
+		<form id="timeline" tal:attributes="action python:'%s/kwetter' % view.portal_url">
 			<input type="hidden" name="a" tal:attributes="value python:view.member.getId()"/>
 			<input type="text" name="m" placeholder="What's up..."/>
 			<input type="submit" value="Share"/>
@@ -8,23 +8,25 @@
 		<div id="result"></div>
 	<script type="text/javascript">
 
-		$('#timeline').submit(function(event) {
-				event.preventDefault();
-				var $form = $(this);
-				message = $form.find('input[name="m"]').val();
-				avatar = $form.find('input[name="a"]').val();
-				$.post('/kwetter', {avatar:avatar, command:'post', message:message},
-					function(data) {}
-				      );
-				}
-				);
+var action = $('#timeline').attr("action");
+
+$('#timeline').submit(function(event) {
+		event.preventDefault();
+		var $form = $(this);
+		message = $form.find('input[name="m"]').val();
+		avatar = $form.find('input[name="a"]').val();
+		$.post(action, {avatar:avatar, command:'post', message:message},
+			function(data) {
+				timeline(avatar);
+			});
+		});
 
 
 function timeline(avatar)
 {
-	$.post('/kwetter', { avatar: avatar, command: 'timeline', since: '2010-12-31 12:00:00', }, 
+	$.post(action, { avatar: avatar, command: 'timeline', since: '2010-12-31 12:00:00', }, 
 			function(data) {
-			$('.result').html(data);
+			$('#result').html(data);
 			});
 }
 

@@ -16,4 +16,11 @@
         permission="zope2.View"
         />
 
+    <browser:page
+        for="Products.CMFCore.interfaces.ISiteRoot"
+        name="kwetter"
+        class=".kwetter.Kwetter"
+        permission="zope2.View"
+        />
+
 </configure>
