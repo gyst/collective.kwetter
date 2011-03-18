@@ -9,12 +9,15 @@
     <include package="plone.browserlayer" />
     -->
 
+    <!--
     <browser:viewlet
         name="nfg.kwetter.timeline"
 	manager="plone.app.layout.viewlets.interfaces.IBelowContentBody"
 	class=".viewlets.KwetterTimeLine"
         permission="zope2.View"
+	layer=".interfaces.IThemeSpecific"
         />
+    -->
 
     <browser:page
         for="Products.CMFCore.interfaces.ISiteRoot"
