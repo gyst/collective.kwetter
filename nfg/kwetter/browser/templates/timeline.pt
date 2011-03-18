@@ -11,8 +11,8 @@
 var form = $('#timeline')
 var avatar = form.find('input[name="a"]');
 var message = form.find('textarea[name="m"]');
-form.submit(kwetter_post);
-kwetter_timeline(avatar);
-kwetter_clear(message);
+//form.submit(kwetter_post);
+//kwetter_timeline(avatar);
+//kwetter_clear(message);
 	</script>
 </div>

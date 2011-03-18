@@ -14,6 +14,7 @@
 	manager="plone.app.layout.viewlets.interfaces.IBelowContentBody"
 	class=".viewlets.KwetterTimeLine"
         permission="zope2.View"
+	layer=".interfaces.IThemeSpecific"
         />
 
     <browser:page
@@ -21,6 +22,7 @@
         name="kwetter"
         class=".kwetter.Kwetter"
         permission="zope2.View"
+	layer=".interfaces.IThemeSpecific"
         />
 
     <browser:resourceDirectory
