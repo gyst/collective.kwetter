@@ -6,19 +6,37 @@ function kwetter_post(event)
 	event.preventDefault();
 	var action = $('#timeline').attr("action");
 	var $form = $(this);
-	message = $form.find('input[name="m"]').val();
+	message = $form.find('textarea[name="m"]').val();
 	avatar = $form.find('input[name="a"]');
-	$.post(action, {avatar:avatar.val(), command:'post', message:message},
-			function(data) { kwetter_timeline(avatar); });
+	if (message) {
+		$.post(action, {avatar:avatar.val(), command:'post', message:message},
+				function(data) { kwetter_search(avatar); });
+	}
 }
 
-function kwetter_timeline(elem)
+function kwetter_search(elem, search, since, limit)
 {
 	var action = $('#timeline').attr("action");
 	var avatar = elem.val();
-	$.post(action, { avatar: avatar, command: 'timeline', since: '2010-12-31 12:00:00', }, 
-			kwetter_update);
+	var def_string = typeof(search) != 'undefined' ? search : '';
+	var def_since = since || '2010-12-31 12:00:00';
+	var def_limit = limit || 3;
 
+	var postargs = { avatar: avatar, command: 'search', since: def_since, limit: def_limit };
+	if (def_string)
+		postargs['string'] = def_string;
+
+	$.post(action, postargs, kwetter_update);
+
+}
+function kwetter_timeline(elem, since)
+{
+	var action = $('#timeline').attr("action");
+	var avatar = elem.val();
+	if (! since)
+		since='2010-12-31 12:00:00';
+
+	$.post(action, { avatar: avatar, command: 'timeline', since: since, }, kwetter_update);
 }
 
 function kwetter_clear(elem)
@@ -43,13 +61,18 @@ function kwetter_counter(event)
 
 function kwetter_update(data)
 {
-	$('#result').html(data);
-	/*
+	// double decode...
+	data = jQuery.parseJSON(data);
+	data = jQuery.parseJSON(data);
 	var out = '<div id="timeline_container">';
 	for (var message in data['messages']) {
-		out = out + 'message<br/>';
+		var row = data['messages'][message];
+		out = out + '<span class="kwetter_avatar">' + row[0] + '</span>';
+		out = out + '<span class="kwetter_message">' + row[1] + '</span>';
+		out = out + '<span class="kwetter_datetime">' + row[2] +'</span><br/>';
 	}
 	out = out + '</div>';
-	$('#result').html(out);
-	*/
+	$('#result').hide().html(out).fadeIn('fast');
+	message = $('#timeline').find('textarea[name="m"]');
+	kwetter_clear(message);
 }

@@ -25,10 +25,15 @@
         class=".kwetter.Kwetter"
         permission="zope2.View"
         />
-
-    <browser:resourceDirectory
+     <browser:resourceDirectory
 	name="nfg.kwetter.scripts"
 	directory="scripts"
-     />
+	/>
+     <browser:resourceDirectory
+	name="nfg.kwetter.stylesheets"
+	directory="stylesheets" 
+	/>       
+            
+
 
 </configure>

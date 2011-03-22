@@ -1,5 +1,4 @@
 <div tal:condition="python:not view.isAnon">
-	<b>Kwetter Timeline for ...<label tal:content="python: view.member.fullname"/></b>
 		<form id="timeline" tal:attributes="action python:'%s/kwetter' % view.portal_url">
 			<input type="hidden" name="a" tal:attributes="value python:view.member.getId()"/>
 			<textarea rows="3" cols="20" type="text" name="m" placeholder="What's up..."></textarea>
@@ -11,8 +10,8 @@
 var form = $('#timeline')
 var avatar = form.find('input[name="a"]');
 var message = form.find('textarea[name="m"]');
-//form.submit(kwetter_post);
-//kwetter_timeline(avatar);
-//kwetter_clear(message);
+form.submit(kwetter_post);
+kwetter_search(avatar);
+kwetter_clear(message);
 	</script>
 </div>
