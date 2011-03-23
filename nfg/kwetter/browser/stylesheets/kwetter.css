@@ -1,26 +1,39 @@
+#kwetter { width: 400px; }
+
+#loadmore {
+	color: blue;
+	font-size: 9px;
+	font-weight: bold;
+	width: 100%;
+	text-align: center;
+	border: solid 1px gray;
+}
 #timeline textarea {
 	width: 300px;
 	height: 40px;
 }
 .kwetter_msgcontainer {
 	display: block;
-	width: 400px;
+	width: 100%;
 	border: solid 1px #cccccc;
 	background-color: lightblue;
-	padding: 0 10px 2px 5px;
+	padding: 5px 0;
 	margin: 0 0 5px;
 }
 .kwetter_avatar {
 	display: block;
 	font-size: 8px;
 	color: blue;
+	padding: 0 5px;
 }
 .kwetter_message {
 	display: block;
 	font-size: 10px;
+	padding: 0 5px;
 }
 .kwetter_datetime {
 	display: block;
 	font-size: 8px;
 	color: gray;
+	padding: 0 5px;
 }

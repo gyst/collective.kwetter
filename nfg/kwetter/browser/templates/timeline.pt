@@ -1,4 +1,4 @@
-<div tal:condition="python:not view.isAnon">
+<div id="kwetter" tal:condition="python:not view.isAnon">
 		<form id="timeline" tal:attributes="action python:'%s/kwetter' % view.portal_url">
 			<input type="hidden" name="a" tal:attributes="value python:view.member.getId()"/>
 			<textarea rows="3" cols="20" type="text" name="m" placeholder="What's up..."></textarea>
@@ -6,6 +6,7 @@
 			<input type="submit" class="allowMultiSubmit" value="Share"/>
 		</form>
 		<div id="result"></div>
+		<div id="loadmore">[VVV]</div>
 	<script type="text/javascript">
 var form = $('#timeline')
 var avatar = form.find('input[name="a"]');
