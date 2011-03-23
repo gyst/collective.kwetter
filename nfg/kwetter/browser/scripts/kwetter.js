@@ -43,8 +43,10 @@ function kwetter_timeline(elem, since)
 
 function kwetter_clear(elem)
 {
-	if (elem.attr("placeholder"))
+	if (elem.attr("placeholder")) {
 		elem.val(elem.attr("placeholder"));
+		$('#charsAllowed').html(140);
+	}
 	elem.click(function() { 
 		window.clearTimeout(reloadTimeoutID);
 		elem.val(''); 
@@ -73,9 +75,11 @@ function kwetter_update(data)
 	var out = '<div id="timeline_container">';
 	for (var message in data['messages']) {
 		var row = data['messages'][message];
+		out = out + '<span class="kwetter_msgcontainer">';
 		out = out + '<span class="kwetter_avatar">' + row[0] + '</span>';
 		out = out + '<span class="kwetter_message">' + row[1] + '</span>';
 		out = out + '<span class="kwetter_datetime">' + row[2] +'</span>';
+		out = out + '</span>';
 	}
 	out = out + '</div>';
 	if (current != out) {

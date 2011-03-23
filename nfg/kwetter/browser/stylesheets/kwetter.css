@@ -1,10 +1,26 @@
-
+#timeline textarea {
+	width: 300px;
+	height: 40px;
+}
+.kwetter_msgcontainer {
+	display: block;
+	width: 400px;
+	border: solid 1px #cccccc;
+	background-color: lightblue;
+	padding: 0 10px 2px 5px;
+	margin: 0 0 5px;
+}
 .kwetter_avatar {
 	display: block;
+	font-size: 8px;
+	color: blue;
 }
 .kwetter_message {
 	display: block;
+	font-size: 10px;
 }
 .kwetter_datetime {
 	display: block;
+	font-size: 8px;
+	color: gray;
 }
