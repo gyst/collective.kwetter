@@ -75,7 +75,7 @@ function kwetter_update(data)
 	var out = '<div id="timeline_container">';
 	for (var message in data['messages']) {
 		var row = data['messages'][message];
-		out = out + '<span class="kwetter_msgcontainer">';
+		out = out + '<span class="kwetter_msgcontainer' + ' avatar-' + row[0] + '">';
 		out = out + '<span class="kwetter_avatar">' + row[0] + '</span>';
 		out = out + '<span class="kwetter_message">' + row[1] + '</span>';
 		out = out + '<span class="kwetter_datetime">' + row[2] +'</span>';
