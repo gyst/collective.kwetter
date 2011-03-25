@@ -8,11 +8,11 @@
 		<div id="result"></div>
 		<div id="loadmore">[VVV]</div>
 	<script type="text/javascript">
-var form = $('#timeline')
+var form = jQuery('#timeline')
 var avatar = form.find('input[name="a"]');
 var message = form.find('textarea[name="m"]');
-form.submit(kwetter_post);
-kwetter_search(avatar);
-kwetter_clear(message);
+form.submit(Kwetter.post);
+Kwetter.search(avatar);
+Kwetter.clear(message);
 	</script>
 </div>

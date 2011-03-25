@@ -25,6 +25,14 @@
         class=".kwetter.Kwetter"
         permission="zope2.View"
         />
+
+    <browser:view
+      for="*"
+      name="avatar"
+      class=".avatar.Avatar"
+      permission="zope2.Public"
+      />
+
      <browser:resourceDirectory
 	name="nfg.kwetter.scripts"
 	directory="scripts"
