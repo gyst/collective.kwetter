@@ -14,10 +14,8 @@
 }
 .kwetter_msgcontainer {
 	display: block;
-	width: 100%;
 	border: solid 1px #cccccc;
-	background-color: lightblue;
-	padding: 5px 0;
+	padding: 0 0 0 40px;
 	margin: 0 0 5px;
 }
 .kwetter_avatar {
