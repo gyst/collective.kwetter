@@ -44,7 +44,7 @@ Kwetter.updateStylesheet = function(ids)
 	for (var name in ids) {
 		cls = '.avatar-' + name;
 		if (! Kwetter.addedRules[name]) {
-			document.styleSheets[0].insertRule(cls+"{background: url("+window.location.href+"/avatar/icon/"+name+") no-repeat scroll 0 0;}",0);
+			document.styleSheets[0].insertRule(cls+"{background: url("+window.location.href+"/avatar/icon/"+name+") no-repeat scroll 10px 5px;}",0);
 			Kwetter.addedRules[name] = 1;
 		}
 	}
