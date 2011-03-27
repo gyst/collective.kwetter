@@ -3,6 +3,8 @@
 from zope.publisher.browser import BrowserPage
 from Products.CMFCore.utils import getToolByName
 from plone.scale.scale import scaleImage
+import logging
+log = logging.getLogger(__name__)
 
 class Avatar(BrowserPage):
     def __init__(self, context, request):
@@ -10,6 +12,7 @@ class Avatar(BrowserPage):
         self.request = request
         self._path = []
         self.mtool = getToolByName(self, 'portal_membership')
+        self.mdata = getToolByName(self, 'portal_memberdata')
 
     def __call__(self):
         if len(self._path) == 2:
@@ -19,20 +22,21 @@ class Avatar(BrowserPage):
             member = self.mtool.getMemberById(uid)
             if member is not None:
                 if attr in ('icon','fullname'):
-                    return getattr(self, attr)(member)
+                    log.debug("get [%s] for [%s]" %(attr,uid))
+                    return getattr(self, attr)(uid)
 
         return None
 
-    def icon(self, member):
-        portrait = member.getPersonalPortrait()
-        width = portrait.width
-        factor = 32.0/float(width)
+    def icon(self, uid):
+        try:
+            portrait = getattr(self.mdata.portraits,uid)
+        except AttributeError:
+            return None
         self.request.response.setHeader('Content-type', portrait.content_type)
-        result = scaleImage(portrait.data, width=32)
-        return result[0]
+        return scaleImage(portrait.data, width=32)[0]
 
-    def fullname(self, member):
-        return member.getProperty('fullname')
+    def fullname(self, uid):
+        return self.mtool.getMemberInfo(uid).get('fullname')
 
     def avatar(self):
         return self._path
