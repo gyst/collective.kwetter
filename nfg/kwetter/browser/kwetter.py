@@ -3,6 +3,7 @@ import json
 from Acquisition import aq_inner
 from zope.component import getMultiAdapter
 from Products.Five.browser import BrowserView
+from Products.CMFCore.utils import getToolByName
 from nfg.kwetter.m2client import M2Kwetter, SERVER
 
 class Kwetter(BrowserView):
@@ -10,6 +11,8 @@ class Kwetter(BrowserView):
         context = aq_inner(self.context)
         self.portal_state = getMultiAdapter((context, self.request),
                                             name=u"plone_portal_state")
+
+        self.mtool = getToolByName(self, 'portal_membership')
 
         if self.request.get('REQUEST_METHOD') != 'POST' or self.isAnon:
             return json.dumps('NO')
@@ -24,13 +27,15 @@ class Kwetter(BrowserView):
         string = self.request.get('searchableText')
         limit = self.request.get('limit',10)
 
+        fullname = self.mtool.getMemberInfo(avatar).get('fullname')
         info = client.info(avatar)
         if info == u'NO':
-            client.reg(avatar, self.member.fullname)
+            client.reg(avatar, fullname)
         else:
             info = json.loads(info)
-            if info.get('fullname') != self.member.fullname:
-                check = client.rereg(avatar, avatar, self.member.fullname)
+            if info.get('fullname') != fullname:
+                check = client.rereg(avatar, avatar, fullname)
+
         if command == 'post':
             result = client.post(avatar, message)
         elif command == 'follow':
@@ -43,7 +48,13 @@ class Kwetter(BrowserView):
             result = client.search(avatar, string, since, limit)
         else:
             return json.dumps('NO')
-        return json.dumps(result)
+
+        ## add the fullnames to the result
+        data = json.loads(result)
+        for m in data.get('messages'):
+            m.append(self.mtool.getMemberInfo(m[0]).get('fullname'))
+
+        return json.dumps(data)
 
     @property
     def isAnon(self):

@@ -16,7 +16,6 @@ Kwetter.loadMoreID;
 Kwetter.maxID;
 
 Kwetter.addedRules = new Object();
-Kwetter.fullNames = new Object();
 
 Kwetter.start = function(formID,inputAvatar,inputMessage,resultID,loadMoreID,maxID)
 {
@@ -110,21 +109,8 @@ Kwetter.counter = function (event)
 	jQuery(Kwetter.maxID).html(rest);
 }
 
-Kwetter.fullName = function(uid)
-{
-	if (Kwetter.fullNames[uid])
-		return Kwetter.fullNames[uid];
-
-	jQuery('.fullname-' + uid).load(window.location.href + '/avatar/fullname/'+uid, function(data) {
-			Kwetter.fullNames[uid] = data
-			});
-	return uid;
-}
-
 Kwetter.update = function (data)
 {
-	// double decode...
-	data = jQuery.parseJSON(data);
 	data = jQuery.parseJSON(data);
 	var ids = Object();
 	var current = jQuery(Kwetter.resultID).html();
@@ -133,7 +119,7 @@ Kwetter.update = function (data)
 		var row = data['messages'][message];
 		ids[row[0]] = row[0];
 		out = out + '<span class="kwetter_msgcontainer' + ' avatar-' + row[0] + '">';
-		out = out + '<span class="kwetter_avatar fullname-' + row[0] + '">' + Kwetter.fullName(row[0]) + '</span>';
+		out = out + '<span class="kwetter_avatar">' + row[3] + '</span>';
 		out = out + '<span class="kwetter_message">' + row[1] + '</span>';
 		out = out + '<span class="kwetter_datetime">' + row[2] +'</span>';
 		out = out + '</span>';
