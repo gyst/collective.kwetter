@@ -2,7 +2,7 @@
 <form id="timeline" tal:attributes="action python:'%s/kwetter' % view.portal_url">
 	<input type="hidden" name="a" tal:attributes="value python:view.member.getId()"/>
 	<span id="charsAllowed">140</span>
-	<textarea rows="3" cols="20" type="text" name="m" placeholder="What's up..."></textarea>
+	<textarea rows="3" cols="20" type="text" name="m" placeholder="Plaats je korte bericht..."></textarea>
 	<input type="submit" class="allowMultiSubmit" value="Share"/>
 </form>
 <div id="result"></div><div id="loadmore">more</div>
