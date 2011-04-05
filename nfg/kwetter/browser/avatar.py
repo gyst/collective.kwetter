@@ -3,11 +3,11 @@
 from zope.publisher.browser import BrowserPage
 from Products.CMFCore.utils import getToolByName
 from plone.scale.scale import scaleImage
-from Products.PlonePAS.utils import cleanId
+from nfg.kwetter.browser.helpers import BrowserMixin
 import logging
 log = logging.getLogger(__name__)
 
-class Avatar(BrowserPage):
+class Avatar(BrowserPage, BrowserMixin):
     def __init__(self, context, request):
         self.context = context
         self.request = request
@@ -20,14 +20,7 @@ class Avatar(BrowserPage):
             attr = self._path[0]
             uid = self._path[1]
 
-            member = self.mtool.getMemberById(uid)
-            if member is None:
-                for m in self.mtool.listMemberIds():
-                    m2 = self.mtool.getMemberById(m)
-                    if m2.getUserName() == uid:
-                        uid = cleanId(m)
-                        member = m2
-                        break
+            (member, uid) = self.memberLookup(self.mtool, uid)
             if member:
                 if attr in ('icon','fullname'):
                     log.debug("get [%s] for [%s]" %(attr,uid))

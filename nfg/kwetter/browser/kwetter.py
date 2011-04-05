@@ -5,8 +5,12 @@ from zope.component import getMultiAdapter
 from Products.Five.browser import BrowserView
 from Products.CMFCore.utils import getToolByName
 from nfg.kwetter.m2client import M2Kwetter, SERVER
+from nfg.kwetter.browser.helpers import BrowserMixin
 
-class Kwetter(BrowserView):
+import logging
+log = logging.getLogger(__name__)
+
+class Kwetter(BrowserView, BrowserMixin):
     def __call__(self):
         context = aq_inner(self.context)
         self.portal_state = getMultiAdapter((context, self.request),
@@ -27,7 +31,9 @@ class Kwetter(BrowserView):
         string = self.request.get('searchableText')
         limit = self.request.get('limit',10)
 
+        (member, avatar) = self.memberLookup(self.mtool, avatar)
         fullname = self.mtool.getMemberInfo(avatar).get('fullname')
+
         info = client.info(avatar)
         if info == u'NO':
             client.reg(avatar, fullname)
@@ -50,9 +56,19 @@ class Kwetter(BrowserView):
             return json.dumps('NO')
 
         ## add the fullnames to the result
-        data = json.loads(result)
-        for m in data.get('messages'):
-            m.append(self.mtool.getMemberInfo(m[0]).get('fullname'))
+        try:
+            data = json.loads(result)
+        except ValueError:
+            data = result
+
+        if command in ['timeline','search']:
+            for m in data.get('messages'):
+                (member,uid) = self.memberLookup(self.mtool, m[0])
+                memberinfo = self.mtool.getMemberInfo(member.getMemberId())
+                if memberinfo:
+                    m.append(memberinfo.get('fullname') or member.getMemberId())
+                else:
+                    m.append(member.getMemberId())
 
         return json.dumps(data)
 
