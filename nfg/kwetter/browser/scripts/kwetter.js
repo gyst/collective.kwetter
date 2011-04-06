@@ -92,9 +92,10 @@ Kwetter.clear = function (elem)
 	}
 	elem.click(function() { 
 		window.clearTimeout(Kwetter.reloadTimeoutID);
-		elem.val(''); 
+		if (elem.val() == elem.attr("placeholder"))
+			elem.val(''); 
 	});
-	elem.keypress(Kwetter.counter);
+	elem.keyup(Kwetter.counter);
 }
 
 Kwetter.counter = function (event)
