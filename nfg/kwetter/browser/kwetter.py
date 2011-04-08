@@ -31,8 +31,8 @@ class Kwetter(BrowserView, BrowserMixin):
         string = self.request.get('searchableText')
         limit = self.request.get('limit',10)
 
-        (member, avatar) = self.memberLookup(self.mtool, avatar)
-        fullname = self.mtool.getMemberInfo(avatar).get('fullname')
+        member = self.memberLookup(self.mtool, avatar)[0]
+        fullname = member.getProperty('fullname')
 
         info = client.info(avatar)
         if info == u'NO':
@@ -64,11 +64,7 @@ class Kwetter(BrowserView, BrowserMixin):
         if command in ['timeline','search']:
             for m in data.get('messages'):
                 (member,uid) = self.memberLookup(self.mtool, m[0])
-                memberinfo = self.mtool.getMemberInfo(member.getMemberId())
-                if memberinfo:
-                    m.append(memberinfo.get('fullname') or member.getMemberId())
-                else:
-                    m.append(member.getMemberId())
+                m.append(member.getProperty('fullname') or member.getMemberId())
 
         return json.dumps(data)
 

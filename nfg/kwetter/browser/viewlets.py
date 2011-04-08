@@ -16,9 +16,6 @@ class KwetterTimeLine(ViewletBase):
         self.portal_state = getMultiAdapter((context, self.request), name=u"plone_portal_state")
         self.utool = getToolByName(self, 'portal_url')
 
-    def update(self):
-        self.timeline = 'test'
-
     @property
     def isAnon(self):
         return self.portal_state.anonymous()
