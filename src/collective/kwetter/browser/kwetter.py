@@ -4,8 +4,8 @@ from Acquisition import aq_inner
 from zope.component import getMultiAdapter
 from Products.Five.browser import BrowserView
 from Products.CMFCore.utils import getToolByName
-from nfg.kwetter.m2client import M2Kwetter, SERVER
-from nfg.kwetter.browser.helpers import BrowserMixin
+from collective.kwetter.m2client import M2Kwetter, SERVER
+from collective.kwetter.browser.helpers import BrowserMixin
 
 import logging
 log = logging.getLogger(__name__)

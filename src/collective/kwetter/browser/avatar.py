@@ -3,7 +3,7 @@
 from zope.publisher.browser import BrowserPage
 from Products.CMFCore.utils import getToolByName
 from plone.scale.scale import scaleImage
-from nfg.kwetter.browser.helpers import BrowserMixin
+from collective.kwetter.browser.helpers import BrowserMixin
 import logging
 log = logging.getLogger(__name__)
 

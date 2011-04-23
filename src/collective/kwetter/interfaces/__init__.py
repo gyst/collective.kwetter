@@ -1,0 +1,2 @@
+from collectivekwetterlayer import INfgKwetterLayer
+

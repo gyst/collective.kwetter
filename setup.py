@@ -3,29 +3,34 @@ import os
 
 version = '1.0'
 
-setup(name='nfg.kwetter',
+setup(name='collective.kwetter',
       version=version,
       description="Plone integration for the Kwetter micro-blogging solution",
-      long_description=open("README.txt").read() + "\n" +
-                       open(os.path.join("docs", "HISTORY.txt")).read(),
+      long_description=open("README.rst").read(),
       # Get more strings from
       # http://pypi.python.org/pypi?:action=list_classifiers
       classifiers=[
+        "Environment :: Web Environment",
         "Framework :: Plone",
-        "Programming Language :: Python",
+        "Framework :: Zope2",
+        "License :: OSI Approved :: GNU General Public License (GPL)",
+        "Operating System :: OS Independent",
+        "Programming Language :: Python :: 2.6",
         ],
-      keywords='',
-      author='',
-      author_email='',
-      url='http://svn.plone.org/svn/collective/',
+      keywords='Zope Plone microblogging',
+      author='Paul Stevens and Guido Stevens',
+      author_email='paul (at) nfg (dot) nl',
+      url='http://www.github.com/collective/kwetter',
       license='GPL',
       packages=find_packages(exclude=['ez_setup']),
-      namespace_packages=['nfg'],
+      package_dir={'': 'src'},
+      namespace_packages=['collective'],
       include_package_data=True,
       zip_safe=False,
       install_requires=[
           'setuptools',
           # -*- Extra requirements: -*-
+          'Plone',
       ],
       entry_points="""
       # -*- Entry points: -*-

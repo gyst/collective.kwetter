@@ -1,5 +1,5 @@
 
 def setupVarious(context):                                                                                                                                                             
-    if context.readDataFile('nfg.kwetter_various.txt') is None:
+    if context.readDataFile('collective.kwetter_various.txt') is None:
         return
 

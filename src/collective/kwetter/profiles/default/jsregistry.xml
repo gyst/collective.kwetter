@@ -1,7 +1,7 @@
 <?xml version="1.0"?>                                                                                                                                                                  
 <object name="portal_javascripts">
 	<javascript 
-		id="++resource++nfg.kwetter.scripts/kwetter.js"
+		id="++resource++collective.kwetter.scripts/kwetter.js"
 		cacheable="True" compression="safe" cookable="False"
 		enabled="True" expression="" inline="False"
 		/>

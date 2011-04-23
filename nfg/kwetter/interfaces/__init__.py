@@ -1,2 +1,0 @@
-from nfgkwetterlayer import INfgKwetterLayer
-

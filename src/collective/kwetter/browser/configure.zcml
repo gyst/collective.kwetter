@@ -1,6 +1,6 @@
 <configure xmlns="http://namespaces.zope.org/zope"
            xmlns:browser="http://namespaces.zope.org/browser"
-           i18n_domain="nfg.kwetter">
+           i18n_domain="collective.kwetter">
 
     <!-- If you are using plone version 3.0, you will need to include the 
          plone.browserlayer package in your buildout and uncomment the following
@@ -11,7 +11,7 @@
 
     <!--
     <browser:viewlet
-        name="nfg.kwetter.timeline"
+        name="collective.kwetter.timeline"
 	manager="plone.app.layout.viewlets.interfaces.IBelowContentBody"
 	class=".viewlets.KwetterTimeLine"
         permission="zope2.View"
@@ -34,11 +34,11 @@
       />
 
      <browser:resourceDirectory
-	name="nfg.kwetter.scripts"
+	name="collective.kwetter.scripts"
 	directory="scripts"
 	/>
      <browser:resourceDirectory
-	name="nfg.kwetter.stylesheets"
+	name="collective.kwetter.stylesheets"
 	directory="stylesheets" 
 	/>       
             
