@@ -1,3 +1,10 @@
 *.swp
 *.egg-info/*
 *.pyc
+*~
+bin/
+develop-eggs/
+eggs/
+include/
+lib/
+src/collective.kwetter.egg-info/
