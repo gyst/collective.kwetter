@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<object>
+  <order manager="plone.abovecontent" skinname="Kwetter"
+         based-on="Sunburst Theme">
+    <viewlet name="collective.kwetter.timeline" insert-before="*" />
+  </order>
+</object>

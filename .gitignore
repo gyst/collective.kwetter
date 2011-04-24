@@ -2,9 +2,12 @@
 *.egg-info/*
 *.pyc
 *~
+.installed.cfg
 bin/
 develop-eggs/
 eggs/
 include/
 lib/
 src/collective.kwetter.egg-info/
+parts/
+var/

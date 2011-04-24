@@ -4,20 +4,18 @@
 
     <!-- If you are using plone version 3.0, you will need to include the 
          plone.browserlayer package in your buildout and uncomment the following
-         line in order to use INfgKwetterLayer as a layer attribute -->
+         line in order to use IThemeSpecific as a layer attribute -->
     <!-- 
     <include package="plone.browserlayer" />
     -->
 
-    <!--
     <browser:viewlet
         name="collective.kwetter.timeline"
-	manager="plone.app.layout.viewlets.interfaces.IBelowContentBody"
+	manager="plone.app.layout.viewlets.interfaces.IAboveContent"
 	class=".viewlets.KwetterTimeLine"
         permission="zope2.View"
-	layer=".interfaces.IThemeSpecific"
         />
-    -->
+<!-- TODO: layer=".interfaces.IThemeSpecific" -->
 
     <browser:page
         for="Products.CMFCore.interfaces.ISiteRoot"
