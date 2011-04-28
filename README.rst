@@ -4,7 +4,28 @@ Microblogging for Plone
 collective.kwetter provides a Plone-integrated frontend for the
 `kwetter microblogging engine <https://www.github.com/pjstevns/kwetter>`_.
 
-.. image:: doc/architecture.png
+The goal of collective.kwetter + kwetter is to provide Twitter-like
+microblogging capabilities inside of Plone.
+
+
+Status
+======
+
+Initial prototype release.
+
+Currently all users get all messages from all users.
+
+Follow/Unfollow functionality is present in the backend but not yet
+exposed in collective.kwetter.
+
+TODO:
+-----
+
+- full dashboard
+- follow/unfollow
+- @attribution and #hashtag linking
+- Plone Member profile integration
+- etc...
 
 
 Installation
@@ -22,11 +43,49 @@ Install it as an addon in Plone control-panel or portal_setup.
 
 Reference target is Plone4, untested in Plone3.
 
+Collective.kwetter itself contains a minimal plone4 buildout configuration
+so you can quickly test and evaluate it.
+
 
 2. Kwetter backend
 ------------------
 
 Use the `kwetter buildout <https://www.github.com/pjstevns/kwetter>`_.
+
+This will install and run the various kwetter backend daemons.
+
+Note that this is not a Plone buildout, but a separate standalone buildout.
+
+
+Architecture
+============
+
+As a Plone developer, you can use the kwetter backend as a 'black box'
+by just using the JSON API.
+
+The kwetter system consists of the following components:
+
+1. `collective.kwetter <https://www.github.com/collective/collective.kwetter>`_.
+   The Plone frontend, which contains:
+   - kwetter.js AJAX browser component
+   - Plone integration and view logic
+   - backend gateway client
+
+2. `kwetter <https://www.github.com/pjstevns/kwetter>`_ backend.
+   Buildout-driven installer for the kwetter backend. This installs:
+   - mongrel2
+   - kwetter.core
+
+3. `kwetter.core <https://www.github.com/pjstevns/kwetter.core>`_.
+   The actual messaging backend logic. This runs:
+   - kwetter-m2 mongrel request handler
+   - kwetterd message routing and storage
+
+Collective.kwetter communicates with JSON over HTTP with both the web browser and with the kwetter backend.
+
+The various kwetter backend components communicate with JSON over ZeroMQ.
+
+.. image:: docs/architecture.png
 
 
 Source Code and Contributions
@@ -51,11 +110,4 @@ Contributors
 - Guido Stevens <guido.stevens@cosent.net>
 
 
-Status
-======
-
-Initial prototype release.
-
-Follow/Unfollow functionality is present in the backend but not yet
-exposed in collective.kwetter.
 
