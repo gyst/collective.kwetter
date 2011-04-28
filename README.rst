@@ -16,10 +16,12 @@ Installation is two-part.
 1. Plone
 --------
 
-Just depend in your buildout on the egg ``collective.dynatree``. ZCML is loaded 
-automagically if z3c.autoinclude is available (default since Plone >=3.3).
+Just depend in your buildout on the egg ``collective.kwetter``.
 
 Install it as an addon in Plone control-panel or portal_setup.
+
+Reference target is Plone4, untested in Plone3.
+
 
 2. Kwetter backend
 ------------------
@@ -53,3 +55,7 @@ Status
 ======
 
 Initial prototype release.
+
+Follow/Unfollow functionality is present in the backend but not yet
+exposed in collective.kwetter.
+
