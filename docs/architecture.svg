@@ -268,7 +268,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -351,15 +351,15 @@
     <text
        xml:space="preserve"
        style="font-size:10px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-       x="315.87067"
-       y="552.7428"
+       x="329.87067"
+       y="550.7428"
        id="text2997"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan2999"
-         x="315.87067"
-         y="552.7428"
-         style="font-size:16px;font-weight:bold;-inkscape-font-specification:Sans Bold">mongrel2    (C++)</tspan></text>
+         x="329.87067"
+         y="550.7428"
+         style="font-size:16px;font-weight:bold;-inkscape-font-specification:Sans Bold">mongrel2    (C)</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:10px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
@@ -502,7 +502,7 @@
            height="394.28571"
            x="-75.714287"
            y="140.93361" /></flowRegion><flowPara
-         id="flowPara3123"></flowPara></flowRoot>    <text
+         id="flowPara3123" /></flowRoot>    <text
        xml:space="preserve"
        style="font-size:12px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
        x="513.05597"
