@@ -84,18 +84,24 @@ by just using the JSON API.
 The kwetter system consists of the following components:
 
 1. `collective.kwetter <https://www.github.com/collective/collective.kwetter>`_.
+
    The Plone frontend, which contains:
+
    - kwetter.js AJAX browser component
    - Plone integration and view logic
    - backend gateway client
 
 2. `kwetter <https://www.github.com/pjstevns/kwetter>`_ backend.
+
    Buildout-driven installer for the kwetter backend. This installs:
+
    - mongrel2
    - kwetter.core
 
 3. `kwetter.core <https://www.github.com/pjstevns/kwetter.core>`_.
+
    The actual messaging backend logic. This runs:
+
    - kwetter-m2 mongrel request handler
    - kwetterd message routing and storage
 
