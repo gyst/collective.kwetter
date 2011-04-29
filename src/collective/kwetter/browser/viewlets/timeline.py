@@ -4,16 +4,18 @@ from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone.app.layout.viewlets.common import ViewletBase
 from Products.CMFCore.utils import getToolByName
 
+
 class KwetterTimeLine(ViewletBase):
-    render = ViewPageTemplateFile('templates/timeline.pt')
+    render = ViewPageTemplateFile('timeline.pt')
 
     def __init__(self, context, request, view, manager):
-        super(KwetterTimeLine,self).__init__(context, request,
+        super(KwetterTimeLine, self).__init__(context, request,
                                                    view, manager)
         self.__parent__ = view
         self.view = view
         self.manager = manager
-        self.portal_state = getMultiAdapter((context, self.request), name=u"plone_portal_state")
+        self.portal_state = getMultiAdapter((context, self.request),
+                                            name=u"plone_portal_state")
         self.utool = getToolByName(self, 'portal_url')
 
     @property

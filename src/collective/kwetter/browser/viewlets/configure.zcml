@@ -1,0 +1,13 @@
+<configure xmlns="http://namespaces.zope.org/zope"
+           xmlns:browser="http://namespaces.zope.org/browser"
+           i18n_domain="collective.kwetter">
+
+    <browser:viewlet
+        name="collective.kwetter.timeline"
+	manager="plone.app.layout.viewlets.interfaces.IAboveContent"
+	class=".timeline.KwetterTimeLine"
+        permission="zope2.View"
+        />
+<!-- TODO: layer=".interfaces.IThemeSpecific" -->
+
+</configure>
