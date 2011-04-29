@@ -42,6 +42,10 @@ class Gateway(BrowserView, BrowserMixin):
         limit = self.request.get('limit', 10)
 
         member = self.memberLookup(self.mtool, avatar)[0]
+        # this is critical to enforce authentication
+        if member != self.member:
+            return json.dumps('NO: security violation')
+
         fullname = member.getProperty('fullname')
 
         info = client.info(avatar)
