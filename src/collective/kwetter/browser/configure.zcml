@@ -14,14 +14,14 @@
 
     <browser:page
         for="Products.CMFCore.interfaces.ISiteRoot"
-        name="kwetter"
-        class=".kwetter.Kwetter"
+        name="kwetter.gateway"
+        class=".gateway.Gateway"
         permission="zope2.View"
         />
 
     <browser:view
       for="*"
-      name="avatar"
+      name="kwetter.avatar"
       class=".avatar.Avatar"
       permission="zope2.Public"
       />

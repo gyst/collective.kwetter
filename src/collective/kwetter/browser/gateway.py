@@ -10,7 +10,17 @@ from collective.kwetter.browser.helpers import BrowserMixin
 import logging
 log = logging.getLogger(__name__)
 
-class Kwetter(BrowserView, BrowserMixin):
+
+class Gateway(BrowserView, BrowserMixin):
+    """Provide a secured gateway relay between browser and backend.
+
+    This view:
+    - takes the browser's AJAX request
+    - applies Plone's authentication on it
+    - then sends it on as a user-bound JSON to the backend
+
+    """
+
     def __call__(self):
         context = aq_inner(self.context)
         self.portal_state = getMultiAdapter((context, self.request),
@@ -29,7 +39,7 @@ class Kwetter(BrowserView, BrowserMixin):
         follow = self.request.get('follow')
         unfollow = self.request.get('unfollow')
         string = self.request.get('searchableText')
-        limit = self.request.get('limit',10)
+        limit = self.request.get('limit', 10)
 
         member = self.memberLookup(self.mtool, avatar)[0]
         fullname = member.getProperty('fullname')
@@ -40,7 +50,7 @@ class Kwetter(BrowserView, BrowserMixin):
         else:
             info = json.loads(info)
             if info.get('fullname') != fullname:
-                check = client.rereg(avatar, avatar, fullname)
+                client.rereg(avatar, avatar, fullname)
 
         if command == 'post':
             result = client.post(avatar, message)
@@ -61,10 +71,11 @@ class Kwetter(BrowserView, BrowserMixin):
         except ValueError:
             data = result
 
-        if command in ['timeline','search']:
+        if command in ['timeline', 'search']:
             for m in data.get('messages'):
-                (member,uid) = self.memberLookup(self.mtool, m[0])
-                m.append(member.getProperty('fullname') or member.getMemberId())
+                (member, uid) = self.memberLookup(self.mtool, m[0])
+                m.append(member.getProperty('fullname')\
+                             or member.getMemberId())
 
         return json.dumps(data)
 
@@ -75,4 +86,3 @@ class Kwetter(BrowserView, BrowserMixin):
     @property
     def member(self):
         return self.portal_state.member()
-
