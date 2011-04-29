@@ -18,6 +18,6 @@ all: .virtualenv
 
 
 test:
-	bin/instance test -s collective.kwetter
+	bin/test -s collective.kwetter
 
 
