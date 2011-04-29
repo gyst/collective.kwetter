@@ -85,7 +85,7 @@ Collective.kwetter communicates with JSON over HTTP with both the web browser an
 
 The various kwetter backend components communicate with JSON over ZeroMQ.
 
-.. image:: docs/architecture.png
+.. image:: tree/master/docs/architecture.png
 
 
 Source Code and Contributions
