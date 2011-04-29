@@ -12,3 +12,4 @@ src/collective.kwetter.egg-info/
 parts/
 var/
 README.html
+dist/
