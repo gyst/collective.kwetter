@@ -46,6 +46,24 @@ Reference target is Plone4, untested in Plone3.
 Collective.kwetter itself contains a minimal plone4 buildout configuration
 so you can quickly test and evaluate it.
 
+An example minimal Plone4 buildout configuration with collective.kwetter::
+
+  [buildout]
+  parts = instance
+  extends = http://dist.plone.org/release/4.0-latest/versions.cfg
+  find-links = 
+      http://dist.repoze.org/     
+  
+  [instance]
+  recipe = plone.recipe.zope2instance
+  eggs =
+      PIL    
+      collective.kwetter
+      
+  zcml = 
+      collective.kwetter
+
+
 
 2. Kwetter backend
 ------------------
