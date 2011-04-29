@@ -29,7 +29,7 @@ class Gateway(BrowserView, BrowserMixin):
         self.mtool = getToolByName(self, 'portal_membership')
 
         if self.request.get('REQUEST_METHOD') != 'POST' or self.isAnon:
-            return json.dumps('NO')
+            return json.dumps('NO: not allowed')
 
         client = M2Kwetter(SERVER)
         command = self.request.get('command')
@@ -63,7 +63,7 @@ class Gateway(BrowserView, BrowserMixin):
         elif command == 'search':
             result = client.search(avatar, string, since, limit)
         else:
-            return json.dumps('NO')
+            return json.dumps('NO: invalid command')
 
         ## add the fullnames to the result
         try:

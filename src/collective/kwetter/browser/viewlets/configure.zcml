@@ -5,7 +5,7 @@
     <browser:viewlet
         name="kwetter.viewlets.timeline"
 	manager="plone.app.layout.viewlets.interfaces.IAboveContent"
-	class=".timeline.KwetterTimeLine"
+	class=".timeline.TimeLineViewlet"
         permission="zope2.View"
         />
 <!-- TODO: layer=".interfaces.IThemeSpecific" -->

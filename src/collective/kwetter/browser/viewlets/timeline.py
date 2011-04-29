@@ -5,11 +5,11 @@ from plone.app.layout.viewlets.common import ViewletBase
 from Products.CMFCore.utils import getToolByName
 
 
-class KwetterTimeLine(ViewletBase):
+class TimeLineViewlet(ViewletBase):
     render = ViewPageTemplateFile('timeline.pt')
 
     def __init__(self, context, request, view, manager):
-        super(KwetterTimeLine, self).__init__(context, request,
+        super(TimeLineViewlet, self).__init__(context, request,
                                                    view, manager)
         self.__parent__ = view
         self.view = view
@@ -27,5 +27,13 @@ class KwetterTimeLine(ViewletBase):
         return self.portal_state.member()
 
     @property
+    def username(self):
+        return self.member.getUserName()
+
+    @property
     def portal_url(self):
         return self.utool.getPortalPath()
+
+    @property
+    def gateway(self):
+        return '%s/kwetter.gateway' % self.portal_url
