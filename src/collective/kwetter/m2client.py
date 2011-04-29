@@ -7,16 +7,17 @@ import json
 import urllib2
 from datetime import datetime, timedelta
 
-SERVER="http://localhost:6767"
+SERVER = "http://localhost:6767"
+
 
 class M2Kwetter(object):
     def __init__(self, server):
         self.server = server
 
-    def write(self, message): 
-        req = urllib2.Request(url=self.server, 
-                              data=json.dumps(message,separators=(',',':')),
-                              headers={'Content-Type':'application/json'},
+    def write(self, message):
+        req = urllib2.Request(url=self.server,
+                              data=json.dumps(message, separators=(',', ':')),
+                              headers={'Content-Type': 'application/json'},
                              )
         rep = urllib2.urlopen(req)
         return rep.read().strip()
@@ -31,7 +32,9 @@ class M2Kwetter(object):
         >>> conn.unreg('regname')
         'OK'
         """
-        return self.write(dict(command='reg',avatar=avatar,fullname=fullname,))
+        return self.write(dict(command='reg',
+                               avatar=avatar,
+                               fullname=fullname,))
 
     def unreg(self, avatar):
         """
@@ -43,7 +46,7 @@ class M2Kwetter(object):
         >>> conn.unreg('unregname')
         'OK'
         """
-        return self.write(dict(command='unreg',avatar=avatar))
+        return self.write(dict(command='unreg', avatar=avatar))
 
     def rereg(self, avatar, newavatar, newfullname):
         """
@@ -58,7 +61,7 @@ class M2Kwetter(object):
         >>> conn.unreg('newreregname')
         'OK'
         """
-        return self.write(dict(command='rereg',avatar=avatar,
+        return self.write(dict(command='rereg', avatar=avatar,
                                newavatar=newavatar, newfullname=newfullname))
 
     def info(self, avatar):
@@ -81,7 +84,7 @@ class M2Kwetter(object):
         >>> conn.unreg('follows')
         'OK'
         """
-        return self.write(dict(command='info',avatar=avatar))
+        return self.write(dict(command='info', avatar=avatar))
 
     def follow(self, avatar, follow):
         """
@@ -127,7 +130,9 @@ class M2Kwetter(object):
         >>> conn.unreg('followee')
         'OK'
         """
-        return self.write(dict(command='unfollow', avatar=avatar, follow=follow))
+        return self.write(dict(command='unfollow',
+                               avatar=avatar,
+                               follow=follow))
 
     def post(self, avatar, message):
         """
@@ -137,7 +142,9 @@ class M2Kwetter(object):
         >>> conn.post('poster', 'some funky message')
         'OK'
         """
-        return self.write(dict(command='post',avatar=avatar,message=message))
+        return self.write(dict(command='post',
+                               avatar=avatar,
+                               message=message))
 
     def search(self, avatar, string=None, since=None, limit=10):
         """
@@ -147,8 +154,10 @@ class M2Kwetter(object):
         >>> conn.search('poster', 'funky')
         '{ "avatar": "poster", "string": "funky", ...}'
         """
-        if not since: since = datetime.today()+timedelta(days=-7)
-        if not string: string=""
+        if not since:
+            since = datetime.today() + timedelta(days=-7)
+        if not string:
+            string = ""
         return self.write(dict(command='search', avatar=avatar, string=string,
                                since=str(since), limit=limit))
 
@@ -170,7 +179,8 @@ class M2Kwetter(object):
         >>> conn.timeline('groupie')
         '{ "avatar": "groupie", ... }'
         """
-        if not since: since = datetime.today()+timedelta(days=-7)
+        if not since:
+            since = datetime.today() + timedelta(days=-7)
         return self.write(dict(command='timeline', avatar=avatar,
                                since=str(since)))
 

@@ -1,11 +1,10 @@
-
-
 from zope.publisher.browser import BrowserPage
 from Products.CMFCore.utils import getToolByName
 from plone.scale.scale import scaleImage
 from collective.kwetter.browser.helpers import BrowserMixin
 import logging
 log = logging.getLogger(__name__)
+
 
 class Avatar(BrowserPage, BrowserMixin):
     def __init__(self, context, request):
@@ -22,15 +21,15 @@ class Avatar(BrowserPage, BrowserMixin):
 
             (member, uid) = self.memberLookup(self.mtool, uid)
             if member:
-                if attr in ('icon','fullname'):
-                    log.debug("get [%s] for [%s]" %(attr,uid))
+                if attr in ('icon', 'fullname'):
+                    log.debug("get [%s] for [%s]" % (attr, uid))
                     return getattr(self, attr)(uid)
 
         return None
 
     def icon(self, uid):
         try:
-            portrait = getattr(self.mdata.portraits,uid)
+            portrait = getattr(self.mdata.portraits, uid)
         except AttributeError:
             return None
         self.request.response.setHeader('Content-type', portrait.content_type)
