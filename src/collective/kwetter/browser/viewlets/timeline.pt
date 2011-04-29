@@ -1,10 +1,11 @@
-<div id="kwetter" tal:condition="python:not view.isAnon">
-<form id="timeline" tal:attributes="action python:'%s/kwetter.gateway' % view.portal_url">
+<div id="kwetter-viewlets-timeline" class="kwetter"
+     tal:condition="python:not view.isAnon">
+<form id="kwetter-update" tal:attributes="action python:'%s/kwetter.gateway' % view.portal_url">
 	<input type="hidden" name="a" tal:attributes="value python:view.member.getUserName()"/>
 	<span id="charsAllowed">140</span>
 	<textarea rows="3" cols="20" type="text" name="m" placeholder="Plaats je korte bericht..."></textarea>
 	<input type="submit" class="allowMultiSubmit" value="Share"/>
 </form>
-<div id="result"></div><div id="loadmore">more</div>
+<div id="kwetter-timeline"></div><div class="loadmore">more</div>
 <script type="text/javascript">Kwetter.start('#timeline','input[name="a"]','textarea[name="m"]','#result','#loadmore','#charsAllowed');</script>
 </div>

@@ -1,6 +1,6 @@
-#kwetter { width: 400px; }
+#kwetter-viewlets-timeline { width: 400px; }
 
-#loadmore {
+.kwetter .loadmore {
 	color: blue;
 	font-size: 9px;
 	font-weight: bold;
@@ -8,7 +8,7 @@
 	text-align: center;
 	border: solid 1px gray;
 }
-#timeline textarea {
+#kwetter-update textarea {
 	width: 300px;
 	height: 40px;
 }

@@ -3,7 +3,7 @@
            i18n_domain="collective.kwetter">
 
     <browser:viewlet
-        name="collective.kwetter.timeline"
+        name="kwetter.viewlets.timeline"
 	manager="plone.app.layout.viewlets.interfaces.IAboveContent"
 	class=".timeline.KwetterTimeLine"
         permission="zope2.View"
