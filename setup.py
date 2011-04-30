@@ -1,7 +1,6 @@
 from setuptools import setup, find_packages
-import os
 
-version = '0.1.1'
+version = '0.2dev'
 
 setup(name='collective.kwetter',
       version=version,
@@ -19,7 +18,7 @@ setup(name='collective.kwetter',
         ],
       keywords='Zope Plone microblogging',
       author='Paul Stevens and Guido Stevens',
-      author_email='paul (at) nfg (dot) nl',
+      author_email='guido.stevens@cosent.net',
       url='http://www.github.com/collective/kwetter',
       license='GPL',
       packages=find_packages('src'),
