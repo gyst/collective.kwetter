@@ -1,0 +1,23 @@
+<?xml version="1.0"?>                                                                                                                                                   
+<portlets
+        xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+        i18n:domain="plone">
+ 
+       <portletmanager
+                name="kwetter.author.portlets"
+                type="collective.kwetter.browser.interfaces.IAuthorPortlets"
+                />
+	<assignment 
+		key="/" 
+		category="context" 
+		manager="kwetter.author.portlets"
+		type="portlets.Followees"
+		visible="True"/>
+	<assignment
+		key="/"
+		category="context"
+		manager="kwetter.author.portlets"
+		type="portlets.Posts"
+		visible="True"/>
+
+</portlets>

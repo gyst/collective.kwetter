@@ -28,6 +28,11 @@
 	directory="stylesheets" 
 	/>       
             
+  <adapter
+        factory=".manager.AuthorPortletManagerRenderer"
+        provides="plone.portlets.interfaces.IPortletManagerRenderer"
+        />
+
 
 
 </configure>
