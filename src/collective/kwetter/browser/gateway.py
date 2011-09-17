@@ -78,7 +78,8 @@ class Gateway(BrowserView, BrowserMixin):
         if command in ['timeline', 'search']:
             for m in data.get('messages'):
                 (member, uid) = self.memberLookup(self.mtool, m[0])
-                m.append(member.getProperty('fullname')\
+                if member:
+                    m.append(member.getProperty('fullname')\
                              or member.getMemberId())
 
         return json.dumps(data)

@@ -21,7 +21,7 @@
 
     <browser:view
       for="*"
-      name="kwetter.avatar"
+      name="avatar"
       class=".avatar.Avatar"
       permission="zope2.Public"
       />

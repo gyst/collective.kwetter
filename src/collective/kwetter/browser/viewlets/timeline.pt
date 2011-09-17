@@ -9,7 +9,7 @@
     <input type="submit" class="allowMultiSubmit" value="Share"/>
   </form>
   <div id="kwetter-timeline"></div>
-  <div class="loadmore">more</div>
+  <div id="loadmore">more</div>
   <script type="text/javascript">
   Kwetter.start('#kwetter-update','input[name="a"]','textarea[name="m"]','#kwetter-timeline','#loadmore','#charsAllowed');
   </script>
