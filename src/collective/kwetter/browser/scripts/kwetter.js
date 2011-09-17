@@ -6,6 +6,7 @@ var Kwetter = {};
 Kwetter.limit = 3; 			// default load limit
 Kwetter.since = '2010-12-31 12:00:00';	// default date limit
 Kwetter.reloadTimeout = 5000;
+Kwetter.previousdata = null;
 
 Kwetter.reloadTimeoutID;
 Kwetter.formID;
@@ -14,6 +15,7 @@ Kwetter.formInputMessage;
 Kwetter.resultID;
 Kwetter.loadMoreID;
 Kwetter.maxID;
+Kwetter.avatar;
 
 Kwetter.addedRules = new Object();
 
@@ -27,26 +29,15 @@ Kwetter.start = function(formID,inputAvatar,inputMessage,resultID,loadMoreID,max
 	Kwetter.maxID=maxID;
 
 	var form = jQuery(Kwetter.formID);
-	var avatar = form.find(Kwetter.formInputAvatar);
+	Kwetter.avatar = form.find(Kwetter.formInputAvatar);
 	var message = form.find(Kwetter.formInputMessage);
 	form.submit(Kwetter.post);
-	Kwetter.search(avatar);
+	Kwetter.search(Kwetter.avatar);
 	jQuery(loadMoreID).click(function() {
 			Kwetter.limit = 2 * Kwetter.limit;
-			Kwetter.search(avatar);
+			Kwetter.search(Kwetter.avatar);
 			});
 	Kwetter.clear(message);
-}
-
-Kwetter.updateStylesheet = function(ids) 
-{
-	for (var name in ids) {
-		cls = '.avatar-' + name;
-		if (! Kwetter.addedRules[name]) {
-			document.styleSheets[0].insertRule(cls+"{background: url("+window.location.href+"/kwetter.avatar/icon/"+name+") no-repeat scroll 10px 5px;}",0);
-			Kwetter.addedRules[name] = 1;
-		}
-	}
 }
 
 Kwetter.post = function(event)
@@ -55,17 +46,16 @@ Kwetter.post = function(event)
 	var action = jQuery(Kwetter.formID).attr("action");
 	var form = jQuery(this);
 	message = form.find(Kwetter.formInputMessage).val();
-	avatar = form.find(Kwetter.formInputAvatar);
 	if (message) {
-		jQuery.post(action, {avatar:avatar.val(), command:'post', message:message},
-				function(data) { Kwetter.search(avatar); });
+		jQuery.post(action, {avatar:Kwetter.avatar.val(), command:'post', message:message},
+				function(data) { Kwetter.search(Kwetter.avatar); });
 	}
 }
 
 Kwetter.search = function (elem, search, since, limit)
 {
 	var action = jQuery(Kwetter.formID).attr("action");
-	var avatar = elem.val();
+	var avatar = typeof(elem) != 'undefined' ? elem.val() : Kwetter.avatar.val();
 	var def_string = typeof(search) != 'undefined' ? search : '';
 	var def_since = since || Kwetter.since;
 	var def_limit = limit || Kwetter.limit;
@@ -112,33 +102,43 @@ Kwetter.counter = function (event)
 
 Kwetter.update = function (data)
 {
-	data = jQuery.parseJSON(data);
+	if (Kwetter.previousdata == data) {
+		Kwetter.reload(Kwetter.reloadTimeout);
+		return;
+	}
+	Kwetter.previousdata = data;
+
+	var row;
+	var kwet;
+	var pdata = jQuery.parseJSON(data);
+
 	var ids = Object();
-	var current = jQuery(Kwetter.resultID).html();
 	var out = '<div id="timeline_container">';
-	for (var message in data['messages']) {
-		var row = data['messages'][message];
+	var url = /\b(http:\/\/\S+)/gi;
+	for (var k=0; k< pdata['messages'].length; k++) {
+		row = pdata['messages'][k];
+		kwet = row[1];
+		if (kwet.match(url))
+			kwet = kwet.replace(url,"<a href=\"$1\">$1</a>");
 		ids[row[0]] = row[0];
+
 		out = out + '<span class="kwetter_msgcontainer' + ' avatar-' + row[0] + '">';
+		out = out + '<div class="commentImage"><a href="author/' + row[0] + '">';
+		out = out + '<img src="@@avatar/icon/' + row[0] + '"></a></div>';
 		out = out + '<span class="kwetter_avatar">' + row[3] + '</span>';
-		out = out + '<span class="kwetter_message">' + row[1] + '</span>';
+		out = out + '<span class="kwetter_message">' + kwet + '</span>';
 		out = out + '<span class="kwetter_datetime">' + row[2] +'</span>';
 		out = out + '</span>';
 	}
 	out = out + '</div>';
-	if (current != out) {
-		jQuery(Kwetter.resultID).hide().html(out).fadeIn(400);
-	}
-	message = jQuery(Kwetter.formID).find(Kwetter.formInputMessage);
-	Kwetter.clear(message);
-	Kwetter.updateStylesheet(ids);
+	jQuery(Kwetter.resultID).hide().html(out).fadeIn(400);
+	Kwetter.clear(jQuery(Kwetter.formID).find(Kwetter.formInputMessage));
 	Kwetter.reload(Kwetter.reloadTimeout);
 }
 
 Kwetter.reload = function (delay)
 {
-	var avatar = jQuery(Kwetter.formID).find(Kwetter.formInputAvatar);
-	Kwetter.reloadTimeoutID = window.setTimeout(Kwetter.search, delay, avatar);
+	Kwetter.reloadTimeoutID = window.setTimeout(Kwetter.search, delay, Kwetter.avatar);
 }
 
 

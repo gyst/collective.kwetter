@@ -13,3 +13,4 @@ parts/
 var/
 README.html
 dist/
+distribute-*.tar.gz
