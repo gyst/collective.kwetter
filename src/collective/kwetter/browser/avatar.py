@@ -31,7 +31,9 @@ class Avatar(BrowserPage, BrowserMixin):
         try:
             portrait = getattr(self.mdata.portraits, uid)
         except AttributeError:
-            return None
+            default = getattr(self.context, 'defaultUser.png')
+            self.request.response.setHeader('Content-type', default.content_type)
+            return scaleImage(default._data, width=32)[0]
         self.request.response.setHeader('Content-type', portrait.content_type)
         return scaleImage(portrait.data, width=32)[0]
 
