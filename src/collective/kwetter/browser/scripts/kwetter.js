@@ -125,7 +125,7 @@ Kwetter.update = function (data)
 		out = out + '<span class="kwetter_msgcontainer' + ' avatar-' + row[0] + '">';
 		out = out + '<div class="commentImage"><a href="author/' + row[0] + '">';
 		out = out + '<img src="@@avatar/icon/' + row[0] + '"></a></div>';
-		out = out + '<span class="kwetter_avatar">' + row[3] + '</span>';
+		out = out + '<span class="kwetter_avatar"><a href="author/' + row[0] + '">' + row[3] + '</a></span>';
 		out = out + '<span class="kwetter_message">' + kwet + '</span>';
 		out = out + '<span class="kwetter_datetime">' + row[2] +'</span>';
 		out = out + '</span>';
