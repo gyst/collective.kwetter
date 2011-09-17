@@ -4,6 +4,7 @@
 
     <browser:viewlet
         name="kwetter.viewlets.timeline"
+	for="Products.CMFCore.interfaces.ISiteRoot" 
 	manager="plone.app.layout.viewlets.interfaces.IAboveContent"
 	class=".timeline.TimeLineViewlet"
         permission="zope2.View"
