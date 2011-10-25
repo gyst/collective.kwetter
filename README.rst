@@ -83,7 +83,7 @@ by just using the JSON API.
 
 The kwetter system consists of the following components:
 
-1. `collective.kwetter <https://www.github.com/collective/collective.kwetter>`_.
+1. `collective.kwetter <https://www.github.com/gyst/collective.kwetter>`_.
 
    The Plone frontend, which contains:
 
@@ -116,10 +116,7 @@ Source Code and Contributions
 =============================
 
 Contributions are welcome. The source is hosted on
-`github collective <https://github.com/collective/collective.kwetter>`_.
-
-You can clone it or `get access to the github-collective 
-<http://collective.github.com/>`_ and work directly on the project. 
+`github collective <https://github.com/gyst/collective.kwetter>`_.
 
 Maintainers of collective.kwetter are Guido Stevens and Paul Stevens. We
 appreciate any contribution and if a release is needed to be done on pypi, 
