@@ -8,7 +8,7 @@
 	manager="plone.app.layout.viewlets.interfaces.IAboveContent"
 	class=".timeline.TimeLineViewlet"
         permission="zope2.View"
+	layer="collective.kwetter.browser.interfaces.IThemeSpecific"
         />
-<!-- TODO: layer=".interfaces.IThemeSpecific" -->
 
 </configure>
