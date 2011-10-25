@@ -4,7 +4,6 @@
 
     <include package=".viewlets" />
     
-
     <browser:page
         for="Products.CMFCore.interfaces.ISiteRoot"
         name="kwetter.gateway"
@@ -13,10 +12,11 @@
         />
 
     <browser:view
-      for="*"
-      name="avatar"
-      class=".avatar.Avatar"
-      permission="zope2.Public"
+	    for="*"
+	    name="avatar"
+	    class=".avatar.Avatar"
+	    permission="zope2.Public"
+	    layer=".interfaces.IThemeSpecific"
       />
 
      <browser:resourceDirectory
@@ -27,12 +27,5 @@
 	name="collective.kwetter.stylesheets"
 	directory="stylesheets" 
 	/>       
-            
-  <adapter
-        factory=".manager.AuthorPortletManagerRenderer"
-        provides="plone.portlets.interfaces.IPortletManagerRenderer"
-        />
-
-
 
 </configure>
