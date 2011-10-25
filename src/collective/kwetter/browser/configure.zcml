@@ -14,10 +14,31 @@
     <browser:view
 	    for="*"
 	    name="avatar"
-	    class=".avatar.Avatar"
+	    class=".views.Avatar"
 	    permission="zope2.Public"
-	    layer=".interfaces.IThemeSpecific"
       />
+	
+    <browser:page
+        for="Products.CMFCore.interfaces.ISiteRoot"
+        name="timeline"
+        class=".views.Timeline"
+        permission="zope2.View"
+     />
+
+    <browser:page
+        for="Products.CMFCore.interfaces.ISiteRoot"
+        name="following"
+        class=".views.Following"
+        permission="zope2.View"
+     />
+
+    <browser:page
+        for="Products.CMFCore.interfaces.ISiteRoot"
+        name="followers"
+        class=".views.Followers"
+        permission="zope2.View"
+     />
+
 
      <browser:resourceDirectory
 	name="collective.kwetter.scripts"

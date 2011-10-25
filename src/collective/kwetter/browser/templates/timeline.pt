@@ -1,0 +1,29 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"                                                                                                                                                       
+	xmlns:tal="http://xml.zope.org/namespaces/tal"
+	xmlns:metal="http://xml.zope.org/namespaces/metal"
+	xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+	lang="en"
+	metal:use-macro="here/main_template/macros/master"
+	i18n:domain="plone">
+<body>
+
+<metal:main fill-slot="body">
+
+<div id="kwetter-viewlets-timeline" class="kwetter"
+     tal:condition="python:not view.isAnon">
+  <form id="kwetter-update" tal:attributes="action view/gateway">
+    <input type="hidden" name="a" tal:attributes="value view/username"/>
+    <span id="charsAllowed">140</span>
+    <textarea rows="3" cols="20" type="text" name="m" placeholder="Share your message..."></textarea>
+    <input type="submit" class="allowMultiSubmit" value="Share"/>
+  </form>
+  <div id="kwetter-timeline"></div>
+  <div id="loadmore">more</div>
+  <script type="text/javascript">
+  Kwetter.start('#kwetter-update','input[name="a"]','textarea[name="m"]','#kwetter-timeline','#loadmore','#charsAllowed');
+  </script>
+</div>
+
+</metal:main>
+</body>
+</html>

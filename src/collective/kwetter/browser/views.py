@@ -1,7 +1,12 @@
+from Acquisition import aq_inner
 from zope.publisher.browser import BrowserPage
+from Products.Five.browser import BrowserView
+from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.CMFCore.utils import getToolByName
 from plone.scale.scale import scaleImage
 from collective.kwetter.browser.helpers import BrowserMixin
+from zope.component import getMultiAdapter
+
 import logging
 log = logging.getLogger(__name__)
 
@@ -46,3 +51,46 @@ class Avatar(BrowserPage, BrowserMixin):
     def publishTraverse(self, request, name):
         self._path.append(name)
         return self
+
+class Timeline(BrowserView):
+    template = ViewPageTemplateFile('templates/timeline.pt')
+
+    def __call__(self):
+        context = aq_inner(self.context)
+        self.portal_state = getMultiAdapter((context, self.request),
+                                            name=u"plone_portal_state")
+        self.utool = getToolByName(self, 'portal_url')
+        return self.template()
+
+    @property
+    def isAnon(self):
+        return self.portal_state.anonymous()
+
+    @property
+    def member(self):
+        return self.portal_state.member()
+
+    @property
+    def username(self):
+        return self.member.getUserName()
+
+    @property
+    def portal_url(self):
+        return self.utool.getPortalPath()
+
+    @property
+    def gateway(self):
+        return '%s/kwetter.gateway' % self.portal_url
+
+class Following(BrowserView):
+    template = ViewPageTemplateFile('templates/following.pt')
+
+    def __call__(self):
+        return self.template()
+
+class Followers(BrowserView):
+    template = ViewPageTemplateFile('templates/followers.pt')
+
+    def __call__(self):
+        return self.template()
+
