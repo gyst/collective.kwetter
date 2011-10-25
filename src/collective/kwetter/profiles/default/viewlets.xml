@@ -2,6 +2,8 @@
 <object>
   <order manager="plone.abovecontent" skinname="Kwetter"
          based-on="Sunburst Theme">
+	 <!--
     <viewlet name="kwetter.viewlets.timeline" insert-before="*" />
+    -->
   </order>
 </object>

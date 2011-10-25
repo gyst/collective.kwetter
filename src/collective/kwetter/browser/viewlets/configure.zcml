@@ -2,13 +2,15 @@
            xmlns:browser="http://namespaces.zope.org/browser"
            i18n_domain="collective.kwetter">
 
+<!--
     <browser:viewlet
         name="kwetter.viewlets.timeline"
 	for="Products.CMFCore.interfaces.ISiteRoot" 
 	manager="plone.app.layout.viewlets.interfaces.IAboveContent"
 	class=".timeline.TimeLineViewlet"
         permission="zope2.View"
-	layer="collective.kwetter.browser.interfaces.IThemeSpecific"
         />
+
+-->
 
 </configure>
