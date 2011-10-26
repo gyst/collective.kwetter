@@ -66,6 +66,8 @@ class Gateway(BrowserView, BrowserMixin):
             result = client.timeline(avatar, since)
         elif command == 'search':
             result = client.search(avatar, string, since, limit)
+        elif command == 'updates':
+            result = client.updates(avatar, since, limit)
         else:
             return json.dumps('NO: invalid command')
 
@@ -75,7 +77,7 @@ class Gateway(BrowserView, BrowserMixin):
         except ValueError:
             data = result
 
-        if command in ['timeline', 'search']:
+        if command in ['timeline', 'search', 'updates']:
             for m in data.get('messages'):
                 (member, uid) = self.memberLookup(self.mtool, m[0])
                 if member:

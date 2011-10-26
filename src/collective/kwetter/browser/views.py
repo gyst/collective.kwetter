@@ -26,11 +26,21 @@ class Avatar(BrowserPage, BrowserMixin):
 
             (member, uid) = self.memberLookup(self.mtool, uid)
             if member:
-                if attr in ('icon', 'fullname'):
-                    log.debug("get [%s] for [%s]" % (attr, uid))
+                if attr in ('portrait', 'icon', 'fullname'):
+                    log.info("get [%s] for [%s]" % (attr, uid))
                     return getattr(self, attr)(uid)
 
         return None
+
+    def portrait(self, uid):
+        try:
+            portrait = getattr(self.mdata.portraits, uid)
+        except AttributeError:
+            default = getattr(self.context, 'defaultUser.png')
+            self.request.response.setHeader('Content-type', default.content_type)
+            return default._data
+        self.request.response.setHeader('Content-type', portrait.content_type)
+        return portrait.data
 
     def icon(self, uid):
         try:
@@ -47,6 +57,64 @@ class Avatar(BrowserPage, BrowserMixin):
 
     def avatar(self):
         return self._path
+
+    def publishTraverse(self, request, name):
+        self._path.append(name)
+        return self
+
+class Updates(BrowserPage, BrowserMixin):
+    def __init__(self, context, request):
+        self.context = context
+        self.request = request
+        self._path = []
+        self.mtool = getToolByName(self, 'portal_membership')
+        self.mdata = getToolByName(self, 'portal_memberdata')
+
+    def __call__(self):
+        if len(self._path) == 1:
+            uid = self._path[0]
+            (member, uid) = self.memberLookup(self.mtool, uid)
+            if member:
+                log.info("get updates for [%s]" % uid)
+                return self._updates(uid)
+        return None
+
+    def publishTraverse(self, request, name):
+        self._path.append(name)
+        return self
+
+    def _updates(self, uid):
+        return """ """
+
+class Author(BrowserPage, BrowserMixin):
+    template = ViewPageTemplateFile('templates/author.pt')
+
+    def __init__(self, context, request):
+        context = aq_inner(context)
+        self.context = context
+        self.request = request
+        self._path = []
+        self.mtool = getToolByName(self, 'portal_membership')
+        self.mdata = getToolByName(self, 'portal_memberdata')
+        self.utool = getToolByName(self, 'portal_url')
+
+    def __call__(self):
+        if len(self._path) == 1:
+            uid = self._path[0]
+            (self.member, uid) = self.memberLookup(self.mtool, uid)
+            if self.member:
+                log.info("author view for [%s]" % uid)
+                return self.template()
+        return None
+
+    @property
+    def portal_url(self):
+        return self.utool.getPortalPath()
+
+    @property
+    def gateway(self):
+        return '%s/kwetter.gateway' % self.portal_url
+
 
     def publishTraverse(self, request, name):
         self._path.append(name)
