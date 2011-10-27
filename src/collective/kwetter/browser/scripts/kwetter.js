@@ -75,20 +75,22 @@ Kwetter.timeline = function (elem, since)
 	jQuery.post(action, { avatar: avatar, command: 'timeline', since: since, }, Kwetter.show_timeline);
 }
 
-Kwetter.updates = function(formID,inputAvatar,inputMessage,resultID,loadMoreID,maxID)
+Kwetter.start_updates = function(formID,inputAvatar,resultID,loadMoreID)
 {
 	Kwetter.formID=formID;
 	Kwetter.formInputAvatar=inputAvatar;
-	Kwetter.formInputMessage=inputMessage;
 	Kwetter.resultID=resultID;
 	Kwetter.loadMoreID=loadMoreID;
-	Kwetter.maxID=maxID;
 
-	var action = jQuery(Kwetter.formID).attr("action");
 	var form = jQuery(Kwetter.formID);
-	var since = '2010-12-31 12:00:00';
 	Kwetter.avatar = form.find(Kwetter.formInputAvatar);
-	console.log(formID);
+	Kwetter.updates();
+}
+
+Kwetter.updates = function()
+{
+	var since = '2010-12-31 12:00:00';
+	var action = jQuery(Kwetter.formID).attr("action");
 	jQuery.post(action, { 
 		avatar: Kwetter.avatar.val(), 
 		command: 'updates', since: since, 
@@ -135,7 +137,7 @@ Kwetter.show_timeline = function (data)
 	var pdata = jQuery.parseJSON(data);
 
 	var ids = Object();
-	var out = '<div id="timeline_container">';
+	var out = '<div id="' + Kwetter.resultID + '">';
 	var url = /\b(http:\/\/\S+)/gi;
 	for (var k=0; k< pdata['messages'].length; k++) {
 		row = pdata['messages'][k];
@@ -160,6 +162,35 @@ Kwetter.show_timeline = function (data)
 
 Kwetter.show_updates = function(data)
 {
+	if (Kwetter.previousdata == data) {
+		window.setTimeout(Kwetter.updates, Kwetter.reloadTimeout);
+		return;
+	}
+	Kwetter.previousdata = data;
+
+	var row;
+	var kwet;
+	var pdata = jQuery.parseJSON(data);
+
+	var ids = Object();
+	var out = '<div id="' + Kwetter.resultID + '">';
+	var url = /\b(http:\/\/\S+)/gi;
+	for (var k=0; k< pdata['messages'].length; k++) {
+		row = pdata['messages'][k];
+		kwet = row[2];
+		if (kwet.match(url))
+			kwet = kwet.replace(url,"<a href=\"$1\">$1</a>");
+		ids[row[1]] = row[1];
+
+		out = out + '<span class="kwetter_msgcontainer' + ' avatar-' + row[1] + '">';
+		out = out + '<span class="kwetter_message">' + kwet + '</span>';
+		out = out + '<span class="kwetter_datetime">' + row[3] +'</span>';
+		out = out + '</span>';
+	}
+	out = out + '</div>';
+	console.log(out);
+	jQuery(Kwetter.resultID).hide().html(out).fadeIn(400);
+	window.setTimeout(Kwetter.updates);
 
 }
 

@@ -63,18 +63,15 @@
 			tal:attributes="href authorinfo/home_page"
 			i18n:translate="label_author_external_home_page">Author's external home page&hellip;</a>
 		</p> 
-
 		<form id="kwetter-updates" tal:attributes="action view/gateway">
 			<input type="hidden" name="a" tal:attributes="value view/member/id"/>
 		</form>
 		<div id="kwetter-timeline" class="kwetter"></div>
 		<script type="text/javascript">
-			Kwetter.updates('#kwetter-updates','input[name="a"]','#kwetter-timeline','#loadmore','#charsAllowed');
+			Kwetter.start_updates('#kwetter-updates','input[name="a"]','#kwetter-timeline','#loadmore');
 		</script>
 	</div>
-
 </div>
-
 </metal:main>
 </body>
 </html>
