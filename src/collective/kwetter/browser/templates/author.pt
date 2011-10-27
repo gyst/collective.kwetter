@@ -8,16 +8,18 @@
 <body>
 
 <metal:main fill-slot="content">
+<div id="kwetter-updates-container" class="kwetter">
 <h1 tal:content="view/member/fullname|nothing"/>
 <img src="" tal:attributes="title view/member/fullname|nothing;
 	src string:${view/portal_url}/@@avatar/portrait/${view/member/id};">
-<form id="#kwetter-updates" tal:attributes="action view/gateway">
+<form id="kwetter-updates" tal:attributes="action view/gateway">
 <input type="hidden" name="a" tal:attributes="value view/member/id"/>
 </form>
 <div id="kwetter-timeline" class="kwetter"></div>
 <script type="text/javascript">
   Kwetter.updates('#kwetter-updates','input[name="a"]','#kwetter-timeline','#loadmore','#charsAllowed');
 </script>
+</div>
 
 </metal:main>
 </body>

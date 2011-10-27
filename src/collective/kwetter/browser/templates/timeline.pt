@@ -9,7 +9,7 @@
 
 <metal:main fill-slot="body">
 
-<div id="kwetter-timeline" class="kwetter"
+<div id="kwetter-timeline-container" class="kwetter"
      tal:condition="python:not view.isAnon">
   <form id="kwetter-update" tal:attributes="action view/gateway">
     <input type="hidden" name="a" tal:attributes="value view/username"/>

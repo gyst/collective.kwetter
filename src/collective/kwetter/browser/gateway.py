@@ -43,8 +43,8 @@ class Gateway(BrowserView, BrowserMixin):
 
         member = self.memberLookup(self.mtool, avatar)[0]
         # this is critical to enforce authentication
-        if member != self.member:
-            return json.dumps('NO: security violation')
+        if member != self.member and command not in ['updates']:
+            return json.dumps('NO: security violation [%s]' % command)
 
         fullname = member.getProperty('fullname')
 
@@ -77,9 +77,10 @@ class Gateway(BrowserView, BrowserMixin):
         except ValueError:
             data = result
 
-        if command in ['timeline', 'search', 'updates']:
+
+        if command in ['timeline', 'search', ]:
             for m in data.get('messages'):
-                (member, uid) = self.memberLookup(self.mtool, m[0])
+                (member, uid) = self.memberLookup(self.mtool, m[1])
                 if member:
                     m.append(member.getProperty('fullname')\
                              or member.getMemberId())
