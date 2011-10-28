@@ -19,13 +19,6 @@
       />
 
     <browser:view
-            for="Products.CMFCore.interfaces.ISiteRoot"
-	    name="updates"
-	    class=".views.Updates"
-	    permission="zope2.Public"
-      />
-
-    <browser:view
         for="Products.CMFCore.interfaces.ISiteRoot"
         name="author"
         class=".views.Author"

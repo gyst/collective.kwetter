@@ -49,7 +49,7 @@
 		alt=""
 		style="float: left; margin: 1em;"
 		tal:attributes="title view/member/fullname|nothing;
-		src string:${view/portal_url}/portal_memberdata/portraits/${view/member/id};">
+		src python:'%s/portal_memberdata/portraits/%s' %(view.portal_url, view.safe_member_id());">
 		<div class="visualClear"></div>
 
 		<p tal:condition="view/homefolder">

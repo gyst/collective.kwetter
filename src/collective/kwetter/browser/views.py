@@ -10,15 +10,25 @@ from zope.component import getMultiAdapter
 import logging
 log = logging.getLogger(__name__)
 
+class KwetterBaseView(BrowserPage, BrowserMixin):
 
-class Avatar(BrowserPage, BrowserMixin):
     def __init__(self, context, request):
+        context = aq_inner(context)
+        self.member = None
         self.context = context
         self.request = request
         self._path = []
         self.mtool = getToolByName(self, 'portal_membership')
         self.mdata = getToolByName(self, 'portal_memberdata')
+        self.utool = getToolByName(self, 'portal_url')
 
+    def safe_member_id(self, id = None):
+        if id is not None:
+            return self.mtool._getSafeMemberId(id)
+        if self.member is not None:
+            return self.mtool._getSafeMemberId(self.member.id)
+
+class Avatar(KwetterBaseView):
     def __call__(self):
         if len(self._path) == 2:
             attr = self._path[0]
@@ -26,6 +36,7 @@ class Avatar(BrowserPage, BrowserMixin):
 
             (member, uid) = self.memberLookup(self.mtool, uid)
             if member:
+                uid = self.safe_member_id(uid)
                 if attr in ('portrait', 'icon', 'fullname'):
                     log.info("get [%s] for [%s]" % (attr, uid))
                     return getattr(self, attr)(uid)
@@ -62,48 +73,14 @@ class Avatar(BrowserPage, BrowserMixin):
         self._path.append(name)
         return self
 
-class Updates(BrowserPage, BrowserMixin):
-    def __init__(self, context, request):
-        self.context = context
-        self.request = request
-        self._path = []
-        self.mtool = getToolByName(self, 'portal_membership')
-        self.mdata = getToolByName(self, 'portal_memberdata')
-
-    def __call__(self):
-        if len(self._path) == 1:
-            uid = self._path[0]
-            (member, uid) = self.memberLookup(self.mtool, uid)
-            if member:
-                log.info("get updates for [%s]" % uid)
-                return self._updates(uid)
-        return None
-
-    def publishTraverse(self, request, name):
-        self._path.append(name)
-        return self
-
-    def _updates(self, uid):
-        return """ """
-
-class Author(BrowserPage, BrowserMixin):
+class Author(KwetterBaseView):
     template = ViewPageTemplateFile('templates/author.pt')
-
-    def __init__(self, context, request):
-        context = aq_inner(context)
-        self.context = context
-        self.request = request
-        self._path = []
-        self.mtool = getToolByName(self, 'portal_membership')
-        self.mdata = getToolByName(self, 'portal_memberdata')
-        self.utool = getToolByName(self, 'portal_url')
 
     def __call__(self):
         if len(self._path) == 1:
             uid = self._path[0]
             (self.member, uid) = self.memberLookup(self.mtool, uid)
             if self.member:
-                log.info("author view for [%s]" % uid)
                 return self.template()
         return None
 
@@ -121,7 +98,6 @@ class Author(BrowserPage, BrowserMixin):
     @property
     def gateway(self):
         return '%s/kwetter.gateway' % self.portal_url
-
 
     def publishTraverse(self, request, name):
         self._path.append(name)
