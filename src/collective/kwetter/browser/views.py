@@ -107,6 +107,13 @@ class Author(BrowserPage, BrowserMixin):
                 return self.template()
         return None
 
+    def homefolder(self):
+        return self.mtool.getHomeFolder(self.member.id)
+
+    @property
+    def authorinfo(self):
+        return self.mtool.getMemberInfo(self.member.id)
+
     @property
     def portal_url(self):
         return self.utool.getPortalPath()

@@ -8,17 +8,71 @@
 <body>
 
 <metal:main fill-slot="content">
-<div id="kwetter-updates-container" class="kwetter">
-<h1 tal:content="view/member/fullname|nothing"/>
-<img src="" tal:attributes="title view/member/fullname|nothing;
-	src string:${view/portal_url}/@@avatar/portrait/${view/member/id};">
-<form id="kwetter-updates" tal:attributes="action view/gateway">
-<input type="hidden" name="a" tal:attributes="value view/member/id"/>
-</form>
-<div id="kwetter-timeline" class="kwetter"></div>
-<script type="text/javascript">
-  Kwetter.updates('#kwetter-updates','input[name="a"]','#kwetter-timeline','#loadmore','#charsAllowed');
-</script>
+<div id="content" class="kwetter"
+	tal:define="authorinfo view/authorinfo"
+	>
+
+	<!-- Author information -->
+	<h1 class="documentFirstHeading" tal:condition="authorinfo/fullname" tal:content="authorinfo/fullname">
+		Author name
+	</h1>   
+
+	<h1 class="documentFirstHeading" tal:condition="not: authorinfo/fullname" tal:content="author">
+		Author ID
+	</h1>   
+
+	<div class="documentDescription" tal:content="authorinfo/description">
+		Author description.
+	</div>       
+
+	<div id="content-core">
+		<div class="discreet">
+			<tal:location condition="authorinfo/location"
+			i18n:translate="text_location">
+			Location:
+			<span tal:content="authorinfo/location"
+				tal:omit-tag=""
+				i18n:name="location">
+				Some location
+			</span>
+			</tal:location>
+
+			<tal:language condition="authorinfo/language">
+			&mdash;
+			<span i18n:translate="label_main_language">Main Language:</span>
+			<span tal:replace="authorinfo/language">Some language</span>
+			</tal:language>
+		</div>
+
+		<img class="portaitPhoto" 
+		src="" 
+		alt=""
+		style="float: left; margin: 1em;"
+		tal:attributes="title view/member/fullname|nothing;
+		src string:${view/portal_url}/portal_memberdata/portraits/${view/member/id};">
+		<div class="visualClear"></div>
+
+		<p tal:condition="view/homefolder">
+		<a href="#" tal:attributes="href python:view.homefolder().absolute_url()"
+			i18n:translate="label_author_internal_home_page">Author's home page in this site&hellip;</a>
+		</p> 
+
+		<p tal:condition="python: not view.homefolder() and authorinfo['home_page']">
+		<a href="#"
+			rel="nofollow"
+			tal:attributes="href authorinfo/home_page"
+			i18n:translate="label_author_external_home_page">Author's external home page&hellip;</a>
+		</p> 
+
+		<form id="kwetter-updates" tal:attributes="action view/gateway">
+			<input type="hidden" name="a" tal:attributes="value view/member/id"/>
+		</form>
+		<div id="kwetter-timeline" class="kwetter"></div>
+		<script type="text/javascript">
+			Kwetter.updates('#kwetter-updates','input[name="a"]','#kwetter-timeline','#loadmore','#charsAllowed');
+		</script>
+	</div>
+
 </div>
 
 </metal:main>
