@@ -13,8 +13,8 @@
      tal:condition="python:not view.isAnon">
   <form id="kwetter-update" tal:attributes="action view/gateway">
     <input type="hidden" name="a" tal:attributes="value view/username"/>
-    <span id="charsAllowed">140</span>
     <textarea rows="3" cols="20" type="text" name="m" placeholder="Share your message..."></textarea>
+    <span id="charsAllowed">140</span>
     <input type="submit" class="allowMultiSubmit" value="Share"/>
   </form>
   <div id="kwetter-timeline"></div>
