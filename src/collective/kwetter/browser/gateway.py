@@ -38,7 +38,7 @@ class Gateway(BrowserView, BrowserMixin):
         since = self.request.get('since')
         follow = self.request.get('follow')
         unfollow = self.request.get('unfollow')
-        string = self.request.get('searchableText')
+        string = self.request.get('string','')
         limit = self.request.get('limit', 10)
 
         member = self.memberLookup(self.mtool, avatar)[0]
@@ -71,14 +71,18 @@ class Gateway(BrowserView, BrowserMixin):
         else:
             return json.dumps('NO: invalid command')
 
-        ## add the fullnames to the result
         try:
             data = json.loads(result)
         except ValueError:
             data = result
 
 
+        ## add the fullnames to the result
         if command in ['timeline', 'search', ]:
+
+            if data == 'NO':
+                data = dict(messages = [])
+
             for m in data.get('messages'):
                 (member, uid) = self.memberLookup(self.mtool, m[0])
                 if member:

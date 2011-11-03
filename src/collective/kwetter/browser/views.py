@@ -10,7 +10,7 @@ from zope.component import getMultiAdapter
 import logging
 log = logging.getLogger(__name__)
 
-class KwetterBaseView(BrowserPage, BrowserMixin):
+class KwetterBrowserPage(BrowserPage, BrowserMixin):
 
     def __init__(self, context, request):
         context = aq_inner(context)
@@ -28,7 +28,7 @@ class KwetterBaseView(BrowserPage, BrowserMixin):
         if self.member is not None:
             return self.mtool._getSafeMemberId(self.member.id)
 
-class Avatar(KwetterBaseView):
+class Avatar(KwetterBrowserPage):
     def __call__(self):
         if len(self._path) == 2:
             attr = self._path[0]
@@ -73,7 +73,7 @@ class Avatar(KwetterBaseView):
         self._path.append(name)
         return self
 
-class Author(KwetterBaseView):
+class Author(KwetterBrowserPage):
     template = ViewPageTemplateFile('templates/author.pt')
 
     def __call__(self):
@@ -103,8 +103,7 @@ class Author(KwetterBaseView):
         self._path.append(name)
         return self
 
-class Timeline(BrowserView):
-    template = ViewPageTemplateFile('templates/timeline.pt')
+class KwetterBrowserView(BrowserView):
 
     def __call__(self):
         context = aq_inner(self.context)
@@ -133,15 +132,14 @@ class Timeline(BrowserView):
     def gateway(self):
         return '%s/kwetter.gateway' % self.portal_url
 
-class Following(BrowserView):
+class Timeline(KwetterBrowserView):
+    template = ViewPageTemplateFile('templates/timeline.pt')
+
+class Following(KwetterBrowserView):
     template = ViewPageTemplateFile('templates/following.pt')
 
-    def __call__(self):
-        return self.template()
-
-class Followers(BrowserView):
+class Followers(KwetterBrowserView):
     template = ViewPageTemplateFile('templates/followers.pt')
 
-    def __call__(self):
-        return self.template()
-
+class Search(KwetterBrowserView):
+    template = ViewPageTemplateFile('templates/search.pt')

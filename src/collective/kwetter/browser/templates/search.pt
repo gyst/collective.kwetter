@@ -11,17 +11,16 @@
 
 <div id="kwetter-timeline-container" class="kwetter"
      tal:condition="python:not view.isAnon">
-  <form id="kwetter-update" tal:attributes="action view/gateway">
-    <input type="hidden" name="a" tal:attributes="value view/username"/>
-    <textarea rows="3" cols="20" type="text" name="m" placeholder="Share your message..."></textarea>
-    <span id="charsAllowed">140</span>
-    <input type="submit" class="allowMultiSubmit" value="Share"/>
-  </form>
-  <div id="kwetter-timeline"></div>
-  <div id="loadmore">more</div>
-  <script type="text/javascript">
-  Kwetter.start_timeline('#kwetter-update','input[name="a"]','textarea[name="m"]','#kwetter-timeline','#loadmore','#charsAllowed');
-  </script>
+
+     <form id="kwetter-search" tal:attributes="action view/gateway">
+	     <input type="hidden" name="a" tal:attributes="value view/member/id"/>
+	     <input name="s" tal:attributes="value view/request/s | string:"/>
+	     <input type="submit" class="allowMultiSubmit" value="Search!"/>
+     </form>
+     <div id="kwetter-timeline" class="kwetter"></div>
+     <script type="text/javascript">
+	     Kwetter.start_search('#kwetter-search','input[name="a"]','input[name="s"]','#kwetter-timeline','#loadmore');
+     </script>
 </div>
 <div id="kwetter-timeline-container" class="kwetter"
 	tal:condition="python:view.isAnon">

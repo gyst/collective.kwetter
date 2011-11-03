@@ -46,6 +46,14 @@
         permission="zope2.View"
      />
 
+    <browser:page
+        for="Products.CMFCore.interfaces.ISiteRoot"
+        name="search"
+        class=".views.Search"
+        permission="zope2.View"
+     />
+
+
 
      <browser:resourceDirectory
 	name="collective.kwetter.scripts"

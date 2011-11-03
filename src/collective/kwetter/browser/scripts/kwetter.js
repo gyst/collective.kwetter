@@ -5,104 +5,31 @@ var Kwetter = {};
 
 Kwetter.limit = 3; 			// default load limit
 Kwetter.since = '2010-12-31 12:00:00';	// default date limit
+Kwetter.string = '';
 Kwetter.reloadTimeout = 5000;
 Kwetter.previousdata = null;
 
 Kwetter.reloadTimeoutID;
 Kwetter.formID;
 Kwetter.formInputAvatar;
-Kwetter.formInputMessage;
+Kwetter.formInputMessage = null;
+Kwetter.formInputSearch = null;
 Kwetter.resultID;
 Kwetter.loadMoreID;
-Kwetter.maxID;
+Kwetter.maxID = null;
 Kwetter.avatar;
 
-Kwetter.addedRules = new Object();
-
-Kwetter.start = function(formID,inputAvatar,inputMessage,resultID,loadMoreID,maxID)
-{
-	Kwetter.formID=formID;
-	Kwetter.formInputAvatar=inputAvatar;
-	Kwetter.formInputMessage=inputMessage;
-	Kwetter.resultID=resultID;
-	Kwetter.loadMoreID=loadMoreID;
-	Kwetter.maxID=maxID;
-
-	var form = jQuery(Kwetter.formID);
-	Kwetter.avatar = form.find(Kwetter.formInputAvatar);
-	var message = form.find(Kwetter.formInputMessage);
-	form.submit(Kwetter.post);
-	Kwetter.search(Kwetter.avatar);
-	jQuery(loadMoreID).click(function() {
-			Kwetter.limit = 2 * Kwetter.limit;
-			Kwetter.search(Kwetter.avatar);
-			});
-	Kwetter.clear(message);
-}
-
-Kwetter.post = function(event)
-{
-	event.preventDefault();
-	var action = jQuery(Kwetter.formID).attr("action");
-	var form = jQuery(this);
-	message = form.find(Kwetter.formInputMessage).val();
-	if (message) {
-		jQuery.post(action, {avatar:Kwetter.avatar.val(), command:'post', message:message},
-				function(data) { Kwetter.search(Kwetter.avatar); });
-	}
-}
-
-Kwetter.search = function (elem, search, since, limit)
-{
-	var action = jQuery(Kwetter.formID).attr("action");
-	var avatar = typeof(elem) != 'undefined' ? elem.val() : Kwetter.avatar.val();
-	var def_string = typeof(search) != 'undefined' ? search : '';
-	var def_since = since || Kwetter.since;
-	var def_limit = limit || Kwetter.limit;
-
-	var postargs = { avatar: avatar, command: 'search', since: def_since, limit: def_limit };
-	if (def_string) postargs['string'] = def_string;
-
-	jQuery.post(action, postargs, Kwetter.show_timeline);
-
-}
-
-Kwetter.timeline = function (elem, since)
-{
-	var action = jQuery(Kwetter.formID).attr("action");
-	var avatar = elem.val();
-	if (! since) since='2010-12-31 12:00:00';
-	jQuery.post(action, { avatar: avatar, command: 'timeline', since: since, }, Kwetter.show_timeline);
-}
-
-Kwetter.start_updates = function(formID,inputAvatar,resultID,loadMoreID)
-{
-	Kwetter.formID=formID;
-	Kwetter.formInputAvatar=inputAvatar;
-	Kwetter.resultID=resultID;
-	Kwetter.loadMoreID=loadMoreID;
-
-	var form = jQuery(Kwetter.formID);
-	Kwetter.avatar = form.find(Kwetter.formInputAvatar);
-	Kwetter.updates();
-}
-
-Kwetter.updates = function()
-{
-	var since = '2010-12-31 12:00:00';
-	var action = jQuery(Kwetter.formID).attr("action");
-	jQuery.post(action, { 
-		avatar: Kwetter.avatar.val(), 
-		command: 'updates', since: since, 
-		}, Kwetter.show_updates);
-}
-
+/*
+ * helpers 
+ *
+ */
 
 Kwetter.clear = function (elem)
 {
 	if (elem.attr("placeholder")) {
 		elem.val(elem.attr("placeholder"));
-		jQuery(Kwetter.maxID).html(140);
+		if (Kwetter.maxID)
+			jQuery(Kwetter.maxID).html(140);
 	}
 	elem.click(function() { 
 		window.clearTimeout(Kwetter.reloadTimeoutID);
@@ -121,13 +48,117 @@ Kwetter.counter = function (event)
 		elem.val(curr.substring(0,139));
 		rest = 0;
 	}
-	jQuery(Kwetter.maxID).html(rest);
+	if (Kwetter.maxID)
+		jQuery(Kwetter.maxID).html(rest);
+}
+
+/*
+ *
+ * commands
+ *
+ */
+
+Kwetter.post = function(event)
+{
+	event.preventDefault();
+	var action = jQuery(Kwetter.formID).attr("action");
+	var form = jQuery(this);
+	message = form.find(Kwetter.formInputMessage).val();
+	if (message) {
+		jQuery.post(action, { 
+				avatar:Kwetter.avatar.val(), 
+				command:'post', 
+				message:message
+			},
+			function(data) { Kwetter.search(); });
+	}
+}
+
+Kwetter.update_search = function(event)
+{
+	event.preventDefault();
+	var action = jQuery(Kwetter.formID).attr("action");
+	var form = jQuery(this);
+	Kwetter.string = form.find(Kwetter.formInputSearch).val();
+	console.log(Kwetter.string);
+	Kwetter.search();
+
+}
+Kwetter.search = function ()
+{
+	var action = jQuery(Kwetter.formID).attr("action");
+	var postargs = { avatar: Kwetter.avatar.val(), command: 'search', since: Kwetter.since, limit: Kwetter.limit, string: Kwetter.string };
+	jQuery.post(action, postargs, Kwetter.show_timeline);
+}
+
+Kwetter.start_search = function(formID, inputAvatar, formInputSearch, resultID, loadMoreID)
+{
+	Kwetter.formID=formID;
+	Kwetter.formInputAvatar=inputAvatar;
+	Kwetter.formInputSearch=formInputSearch;
+	Kwetter.resultID=resultID;
+	Kwetter.loadMoreID=loadMoreID;
+
+	var form = jQuery(Kwetter.formID);
+	Kwetter.avatar = form.find(Kwetter.formInputAvatar);
+	Kwetter.string = form.find(Kwetter.formInputSearch).val();
+	console.log(form);
+	form.submit(Kwetter.update_search);
+	Kwetter.search();
+	Kwetter.clear(form.find(Kwetter.formInputSearch));
+}
+
+Kwetter.timeline = function ()
+{
+	var action = jQuery(Kwetter.formID).attr("action");
+	var postargs = { avatar: Kwetter.avatar.val(), command: 'timeline', since: Kwetter.since, limit: Kwetter.limit };
+	jQuery.post(action, postargs, Kwetter.show_timeline);
+}
+
+
+Kwetter.start_timeline = function(formID,inputAvatar,inputMessage,resultID,loadMoreID,maxID)
+{
+	Kwetter.formID=formID;
+	Kwetter.formInputAvatar=inputAvatar;
+	Kwetter.formInputMessage=inputMessage;
+	Kwetter.resultID=resultID;
+	Kwetter.loadMoreID=loadMoreID;
+	Kwetter.maxID=maxID;
+
+	var form = jQuery(Kwetter.formID);
+	Kwetter.avatar = form.find(Kwetter.formInputAvatar);
+	form.submit(Kwetter.post);
+	Kwetter.search();
+	jQuery(loadMoreID).click(function() {
+			Kwetter.limit = 2 * Kwetter.limit;
+			Kwetter.search();
+			});
+	Kwetter.clear(form.find(Kwetter.formInputMessage));
+}
+
+Kwetter.updates = function()
+{
+	var action = jQuery(Kwetter.formID).attr("action");
+	var postargs = { avatar: Kwetter.avatar.val(), command: 'updates', since: Kwetter.since, limit: Kwetter.limit };
+	jQuery.post(action, postargs, Kwetter.show_updates);
+}
+
+Kwetter.start_updates = function(formID,inputAvatar,resultID,loadMoreID)
+{
+	Kwetter.formID=formID;
+	Kwetter.formInputAvatar=inputAvatar;
+	Kwetter.resultID=resultID;
+	Kwetter.loadMoreID=loadMoreID;
+
+	var form = jQuery(Kwetter.formID);
+	Kwetter.avatar = form.find(Kwetter.formInputAvatar);
+	Kwetter.updates();
 }
 
 Kwetter.show_timeline = function (data)
 {
 	if (Kwetter.previousdata == data) {
-		Kwetter.reload(Kwetter.reloadTimeout);
+		Kwetter.reloadTimeoutID = window.setTimeout(Kwetter.search, Kwetter.reloadTimeout);
 		return;
 	}
 	Kwetter.previousdata = data;
@@ -136,15 +167,18 @@ Kwetter.show_timeline = function (data)
 	var kwet;
 	var pdata = jQuery.parseJSON(data);
 
-	var ids = Object();
 	var out = '<div id="' + Kwetter.resultID + '">';
 	var url = /\b(http:\/\/\S+)/gi;
+	var tag = /(\#\S+)/g;
 	for (var k=0; k< pdata['messages'].length; k++) {
 		row = pdata['messages'][k];
 		kwet = row[1];
 		if (kwet.match(url))
 			kwet = kwet.replace(url,"<a href=\"$1\">$1</a>");
-		ids[row[0]] = row[0];
+		if (kwet.match(tag)) {
+			kwet = kwet.replace(tag,"<a href=\"@@search?s=$1\">$1</a>");
+			kwet = kwet.replace('s=#','s=%23');
+		}
 
 		out = out + '<span class="kwetter_msgcontainer' + ' avatar-' + row[0] + '">';
 		out = out + '<div class="commentImage"><a href="@@author/' + row[0] + '">';
@@ -156,8 +190,12 @@ Kwetter.show_timeline = function (data)
 	}
 	out = out + '</div>';
 	jQuery(Kwetter.resultID).hide().html(out).fadeIn(400);
-	Kwetter.clear(jQuery(Kwetter.formID).find(Kwetter.formInputMessage));
-	Kwetter.reload(Kwetter.reloadTimeout);
+	Kwetter.reloadTimeoutID = window.setTimeout(Kwetter.search, Kwetter.reloadTimeout);
+	if (Kwetter.formInputMessage) {
+		inputElem = jQuery(Kwetter.formID).find(Kwetter.formInputMessage);
+		if (inputElem)
+			Kwetter.clear(inputElem);
+	}
 }
 
 Kwetter.show_updates = function(data)
@@ -174,11 +212,14 @@ Kwetter.show_updates = function(data)
 
 	var out = '<div id="' + Kwetter.resultID + '">';
 	var url = /\b(http:\/\/\S+)/gi;
+	var tag = /\b(#\S+)/gi;
 	for (var k=0; k< pdata['messages'].length; k++) {
 		row = pdata['messages'][k];
 		kwet = row[1];
 		if (kwet.match(url))
 			kwet = kwet.replace(url,"<a href=\"$1\">$1</a>");
+		if (kwet.match(tag))
+			kwet = kwet.replace(tag,"<a href=\"@@search?s=$1\">$1</a>");
 
 		out = out + '<span class="kwetter_msgcontainer' + ' avatar-' + row[0] + '">';
 		out = out + '<span class="kwetter_message">' + kwet + '</span>';
@@ -188,13 +229,6 @@ Kwetter.show_updates = function(data)
 	out = out + '</div>';
 	console.log(out);
 	jQuery(Kwetter.resultID).hide().html(out).fadeIn(400);
-	window.setTimeout(Kwetter.updates);
-
+	Kwetter.reloadTimeoutID = window.setTimeout(Kwetter.updates, Kwetter.reloadTimeout);
 }
-
-Kwetter.reload = function (delay)
-{
-	Kwetter.reloadTimeoutID = window.setTimeout(Kwetter.search, delay, Kwetter.avatar);
-}
-
 
