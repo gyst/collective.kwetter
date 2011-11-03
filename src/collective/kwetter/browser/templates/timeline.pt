@@ -14,8 +14,10 @@
   <form id="kwetter-update" tal:attributes="action view/gateway">
     <input type="hidden" name="a" tal:attributes="value view/username"/>
     <textarea rows="3" cols="20" type="text" name="m" placeholder="Share your message..."></textarea>
+    <div id="kwetter-submit">
     <span id="charsAllowed">140</span>
     <input type="submit" class="allowMultiSubmit" value="Share"/>
+    </div>
   </form>
   <div id="kwetter-timeline"></div>
   <div id="loadmore">more</div>

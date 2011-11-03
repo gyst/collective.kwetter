@@ -18,6 +18,7 @@
 	     <input type="submit" class="allowMultiSubmit" value="Search!"/>
      </form>
      <div id="kwetter-timeline" class="kwetter"></div>
+     <div id="loadmore">more</div>
      <script type="text/javascript">
 	     Kwetter.start_search('#kwetter-search','input[name="a"]','input[name="s"]','#kwetter-timeline','#loadmore');
      </script>

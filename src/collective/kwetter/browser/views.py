@@ -59,9 +59,9 @@ class Avatar(KwetterBrowserPage):
         except AttributeError:
             default = getattr(self.context, 'defaultUser.png')
             self.request.response.setHeader('Content-type', default.content_type)
-            return scaleImage(default._data, width=32)[0]
+            return scaleImage(default._data, width=64)[0]
         self.request.response.setHeader('Content-type', portrait.content_type)
-        return scaleImage(portrait.data, width=32)[0]
+        return scaleImage(portrait.data, width=64)[0]
 
     def fullname(self, uid):
         return self.mtool.getMemberInfo(uid).get('fullname')

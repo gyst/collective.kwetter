@@ -1,4 +1,4 @@
-#kwetter-viewlets-timeline { width: 400px; }
+#kwetter-timeline-container { width: 30em; }
 
 .kwetter #loadmore {
 	color: blue;
@@ -9,40 +9,61 @@
 	margin: 1em 0;
 }
 #kwetter-update textarea {
-	width: 300px;
+	width: 100%;
 	height: 70px;
 }
 .kwetter_msgcontainer {
 	display: block;
 	border: solid 1px #cccccc;
-	padding: 0 0 0 5px;
+	padding: 5px;
 	margin: 0 0 5px;
-	max-width: 30em;
 	min-height: 3.5em;
 }
 .kwetter_avatar {
 	display: block;
 	font-size: 90%;
 	color: blue;
-	padding: 0 5px;
+}
+.kwetter_avatar a {
+	color: #444;
+	font-weight: bold;
+}
+.kwetter_avatar a:hover {
+	text-decoration: underline;
+	color: #205c90;
 }
 .kwetter_message {
 	display: block;
-	padding: 0 5px;
-	font-size: 0.8em;
+	font-size: 14px;
+	color: #444;
+	line-height: 125%;
 }
 .kwetter_datetime {
 	display: block;
-	font-size: 75%;
+	font-size: 11px;
 	color: gray;
-	padding: 0 40px;
 }
-.commentImage {
-	margin-top: 2px;
+.kwetter_Image {
+	float: left;
+	height: 64px;
+	width: 64px;
+	overflow: hidden;
 }
+.kwetter_Block {
+	margin-left: 74px;
+	min-height: 80px;
+
+}
+#kwetter-submit {
+	float: right;
+	padding: .5em 0;
+}
+
 #charsAllowed {
 	color: gray;
 }
+FORM#kwetter-search,
 FORM#kwetter-update {
-	max-width: 30em;
+	padding: 5px 5px 30px 5px;
+	margin: 0 0 10px 0;
 }
