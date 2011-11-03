@@ -23,6 +23,10 @@
   Kwetter.start('#kwetter-update','input[name="a"]','textarea[name="m"]','#kwetter-timeline','#loadmore','#charsAllowed');
   </script>
 </div>
+<div id="kwetter-timeline-container" class="kwetter"
+	tal:condition="python:view.isAnon">
+	<span class="message">You need to <a href="@@register">register</a> and <a href="login">login</a> to participate</span>
+</div>
 
 </metal:main>
 </body>

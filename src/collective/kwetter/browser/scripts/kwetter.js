@@ -141,17 +141,17 @@ Kwetter.show_timeline = function (data)
 	var url = /\b(http:\/\/\S+)/gi;
 	for (var k=0; k< pdata['messages'].length; k++) {
 		row = pdata['messages'][k];
-		kwet = row[2];
+		kwet = row[1];
 		if (kwet.match(url))
 			kwet = kwet.replace(url,"<a href=\"$1\">$1</a>");
-		ids[row[1]] = row[1];
+		ids[row[0]] = row[0];
 
-		out = out + '<span class="kwetter_msgcontainer' + ' avatar-' + row[1] + '">';
-		out = out + '<div class="commentImage"><a href="@@author/' + row[1] + '">';
-		out = out + '<img src="@@avatar/icon/' + row[1] + '"></a></div>';
-		out = out + '<span class="kwetter_avatar"><a href="@@author/' + row[1] + '">' + row[4] + '</a></span>';
+		out = out + '<span class="kwetter_msgcontainer' + ' avatar-' + row[0] + '">';
+		out = out + '<div class="commentImage"><a href="@@author/' + row[0] + '">';
+		out = out + '<img src="@@avatar/icon/' + row[0] + '"></a></div>';
+		out = out + '<span class="kwetter_avatar"><a href="@@author/' + row[0] + '">' + row[3] + '</a></span>';
 		out = out + '<span class="kwetter_message">' + kwet + '</span>';
-		out = out + '<span class="kwetter_datetime">' + row[3] +'</span>';
+		out = out + '<span class="kwetter_datetime">' + row[2] +'</span>';
 		out = out + '</span>';
 	}
 	out = out + '</div>';
@@ -172,19 +172,17 @@ Kwetter.show_updates = function(data)
 	var kwet;
 	var pdata = jQuery.parseJSON(data);
 
-	var ids = Object();
 	var out = '<div id="' + Kwetter.resultID + '">';
 	var url = /\b(http:\/\/\S+)/gi;
 	for (var k=0; k< pdata['messages'].length; k++) {
 		row = pdata['messages'][k];
-		kwet = row[2];
+		kwet = row[1];
 		if (kwet.match(url))
 			kwet = kwet.replace(url,"<a href=\"$1\">$1</a>");
-		ids[row[1]] = row[1];
 
-		out = out + '<span class="kwetter_msgcontainer' + ' avatar-' + row[1] + '">';
+		out = out + '<span class="kwetter_msgcontainer' + ' avatar-' + row[0] + '">';
 		out = out + '<span class="kwetter_message">' + kwet + '</span>';
-		out = out + '<span class="kwetter_datetime">' + row[3] +'</span>';
+		out = out + '<span class="kwetter_datetime">' + row[2] +'</span>';
 		out = out + '</span>';
 	}
 	out = out + '</div>';
