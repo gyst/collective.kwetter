@@ -78,7 +78,7 @@ class Gateway(BrowserView, BrowserMixin):
 
 
         ## add the fullnames to the result
-        if command in ['timeline', 'search', ]:
+        if command in ['timeline', 'search', 'updates' ]:
 
             if data == 'NO':
                 data = dict(messages = [])
