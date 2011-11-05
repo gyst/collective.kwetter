@@ -152,6 +152,29 @@ Kwetter.start_updates = function(formID,inputAvatar,resultID,loadMoreID)
 	Kwetter.updates();
 }
 
+Kwetter.add_links = function(message)
+{
+	/* http://site.org */
+	var url = /\b(http:\/\/\S+)/gi;
+	var rawmsg = message;
+	if (rawmsg.match(url))
+		message = message.replace(url,"<a href=\"$1\">$1</a>");
+
+	/* @mention */
+	var mention = /(\@)([a-zA-Z0-9_]+)/g;
+	if (rawmsg.match(mention)) {
+		message = message.replace(mention, "<a href=\"@@author/$2\">$1$2</a>");
+	}
+
+	/* #tag */
+	var tag = /(\#[a-zA-Z0-9]+)/g;
+	if (rawmsg.match(tag)) {
+		message = message.replace(tag,"<a href=\"@@search?s=$1\">$1</a>");
+		message = message.replace('s=#','s=%23');
+	}
+	return message;
+}
+
 Kwetter.show_timeline = function (data)
 {
 	if (Kwetter.previousdata == data) {
@@ -165,18 +188,9 @@ Kwetter.show_timeline = function (data)
 	var pdata = jQuery.parseJSON(data);
 
 	var out = '<div id="' + Kwetter.resultID + '">';
-	var url = /\b(http:\/\/\S+)/gi;
-	var tag = /(\#\S+)/g;
 	for (var k=0; k< pdata['messages'].length; k++) {
 		row = pdata['messages'][k];
-		kwet = row[1];
-		if (kwet.match(url))
-			kwet = kwet.replace(url,"<a href=\"$1\">$1</a>");
-		if (kwet.match(tag)) {
-			kwet = kwet.replace(tag,"<a href=\"@@search?s=$1\">$1</a>");
-			kwet = kwet.replace('s=#','s=%23');
-		}
-
+		kwet = Kwetter.add_links(row[1]);
 		out = out + '<span class="kwetter_msgcontainer' + ' avatar-' + row[0] + '">';
 		out = out + '<div class="kwetter_Image"><a href="@@author/' + row[0] + '">';
 		out = out + '<img src="@@avatar/icon/' + row[0] + '"></a></div>';
@@ -213,14 +227,7 @@ Kwetter.show_updates = function(data)
 	var tag = /(\#\S+)/g;
 	for (var k=0; k< pdata['messages'].length; k++) {
 		row = pdata['messages'][k];
-		kwet = row[1];
-		if (kwet.match(url))
-			kwet = kwet.replace(url,"<a href=\"$1\">$1</a>");
-		if (kwet.match(tag)) {
-			kwet = kwet.replace(tag,"<a href=\"@@search?s=$1\">$1</a>");
-			kwet = kwet.replace('s=#','s=%23');
-		}
-
+		kwet = Kwetter.add_links(row[1]);
 		out = out + '<span class="kwetter_msgcontainer' + ' avatar-' + row[0] + '">';
 		out = out + '<span class="kwetter_message">' + kwet + '</span>';
 		out = out + '<span class="kwetter_datetime">' + row[2] +'</span>';
