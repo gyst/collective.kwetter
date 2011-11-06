@@ -86,8 +86,7 @@ Kwetter.post = function(event)
 					if (inputElem)
 						Kwetter.clear(inputElem);
 				}
-       
-				Kwetter.search(); 
+				Kwetter.reloadTimeoutID = window.setTimeout(Kwetter.search, Kwetter.reloadTimeout);
 			});
 	}
 }
@@ -228,7 +227,7 @@ Kwetter.show_updates = function(data)
 {
 	var pdata = jQuery.parseJSON(data);
 	if (pdata['messages'].length < 1) {
-		Kwetter.reloadTimeoutID = window.setTimeout(Kwetter.search, Kwetter.reloadTimeout);
+		Kwetter.reloadTimeoutID = window.setTimeout(Kwetter.updates, Kwetter.reloadTimeout);
 		return;
 	}
 
