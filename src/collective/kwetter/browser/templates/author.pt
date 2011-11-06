@@ -52,6 +52,17 @@
 		src python:'%s/portal_memberdata/portraits/%s' %(view.portal_url, view.safe_member_id());">
 		<div class="visualClear"></div>
 
+		<div class="kwetter-follow">
+			<form id="kwetter-follow" tal:attributes="action view/gateway">
+				<input type="hidden" name="a" tal:attributes="value view/member/id"/>
+				<input type="hidden" name="i" tal:attributes="value view/auth_username"/>
+			</form>
+			<div id="kwetter-follow-info"></div>
+			<script type="text/javascript">
+				Kwetter.start_info('#kwetter-follow','input[name="a"]','input[name="i"]','#kwetter-follow-info');
+			</script>
+		</div>
+
 		<p tal:condition="view/homefolder">
 		<a href="#" tal:attributes="href python:view.homefolder().absolute_url()"
 			i18n:translate="label_author_internal_home_page">Author's home page in this site&hellip;</a>

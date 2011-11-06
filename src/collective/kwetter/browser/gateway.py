@@ -37,13 +37,12 @@ class Gateway(BrowserView, BrowserMixin):
         message = self.request.get('message')
         since = self.request.get('since')
         follow = self.request.get('follow')
-        unfollow = self.request.get('unfollow')
         string = self.request.get('string','')
         limit = self.request.get('limit', 10)
 
         member = self.memberLookup(self.mtool, avatar)[0]
         # this is critical to enforce authentication
-        if member != self.member and command not in ['updates']:
+        if member != self.member and command not in ['updates','info']:
             return json.dumps('NO: security violation [%s]' % command)
 
         fullname = member.getProperty('fullname')
@@ -61,13 +60,15 @@ class Gateway(BrowserView, BrowserMixin):
         elif command == 'follow':
             result = client.follow(avatar, follow)
         elif command == 'unfollow':
-            result = client.unfollow(avatar, unfollow)
+            result = client.unfollow(avatar, follow)
         elif command == 'timeline':
             result = client.timeline(avatar, since)
         elif command == 'search':
             result = client.search(avatar, string, since, limit)
         elif command == 'updates':
             result = client.updates(avatar, since, limit)
+        elif command == 'info':
+            result = client.info(avatar)
         else:
             return json.dumps('NO: invalid command')
 

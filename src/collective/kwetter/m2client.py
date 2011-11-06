@@ -5,7 +5,11 @@ example kwetter client which talks JSON over HTTP to mongrel2
 
 import json
 import urllib2
+import logging
+
 from datetime import datetime, timedelta
+
+log = logging.getLogger(__name__)
 
 SERVER="http://localhost:6767"
 
@@ -14,6 +18,7 @@ class M2Kwetter(object):
         self.server = server
 
     def write(self, message): 
+        log.debug(message)
         req = urllib2.Request(url=self.server, 
                               data=json.dumps(message,separators=(',',':')),
                               headers={'Content-Type':'application/json'},

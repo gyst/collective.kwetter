@@ -21,12 +21,19 @@ class KwetterBrowserPage(BrowserPage, BrowserMixin):
         self.mtool = getToolByName(self, 'portal_membership')
         self.mdata = getToolByName(self, 'portal_memberdata')
         self.utool = getToolByName(self, 'portal_url')
+        self.portal_state = getMultiAdapter((context, self.request),
+                                            name=u"plone_portal_state")
 
     def safe_member_id(self, id = None):
         if id is not None:
             return self.mtool._getSafeMemberId(id)
         if self.member is not None:
             return self.mtool._getSafeMemberId(self.member.id)
+
+    @property
+    def auth_username(self):
+        return self.portal_state.member().getUserName()
+
 
 class Avatar(KwetterBrowserPage):
     def __call__(self):

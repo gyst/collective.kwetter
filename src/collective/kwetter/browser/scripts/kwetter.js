@@ -18,6 +18,13 @@ Kwetter.resultID;
 Kwetter.loadMoreID;
 Kwetter.maxID = null;
 Kwetter.avatar;
+Kwetter.authid;
+
+Kwetter.infoAuthID;
+Kwetter.infoFormID;
+Kwetter.infoResultID;
+Kwetter.following;
+
 
 /*
  * helpers 
@@ -250,3 +257,84 @@ Kwetter.show_updates = function(data)
 	Kwetter.reloadTimeoutID = window.setTimeout(Kwetter.updates, Kwetter.reloadTimeout);
 }
 
+Kwetter.start_info = function(formID, avatarID, authID, resultID)
+{
+	Kwetter.infoFormID = formID;
+	Kwetter.formInputAvatarID = avatarID;
+	Kwetter.infoAuthID = authID;
+	Kwetter.infoResultID = resultID;
+
+	var form = jQuery(Kwetter.infoFormID);
+	Kwetter.avatar = form.find(Kwetter.formInputAvatarID);
+	Kwetter.authid = form.find(Kwetter.infoAuthID);
+	form.submit(Kwetter.update_info);
+	Kwetter.info();
+}
+
+Kwetter.update_info = function(event)
+{
+	event.preventDefault();
+	Kwetter.info();
+}
+
+Kwetter.info = function()
+{
+	var action = jQuery(Kwetter.infoFormID).attr("action");
+	var form = jQuery(this);
+	var postargs = { avatar: Kwetter.avatar.val(), command: 'info' }
+	jQuery.post(action, postargs, Kwetter.show_info);
+}
+
+Kwetter.show_info = function(data)
+{
+	var pdata = jQuery.parseJSON(data);
+	var follows_count = 0;
+	var followers_count = 0;
+	var following = false;
+
+	console.log(data);
+
+	if (! (pdata.follows === undefined))
+		follows_count = pdata.follows.length;
+	if (! (pdata.followers === undefined)) {
+		followers_count = pdata.followers.length;
+		for (i=0; i < followers_count; i++) {
+			if (pdata.followers[i] === Kwetter.authid.val())
+				following = true;
+		}
+	}
+
+	console.log(follows_count);
+	console.log(followers_count);
+	var form = jQuery(Kwetter.infoFormID);
+
+	if (following) {
+		followbutton = '<span id="follow_button">Stop Following</span>';
+	} else {
+		followbutton = '<span id="follow_button">Start Following</span>';
+	}
+
+	out = '<span id="kwetter_follow_counts">' +
+		'<span id="kwetter_follows_count">Follows: ' + follows_count + '</span>' +
+		'<span id="kwetter_followers_count">Followers: ' + followers_count + '</span>' +
+		'</span>' +
+		'<span id="kwetter_following">' + 
+		followbutton + 
+		'</span>';
+
+	var newDom = jQuery(out).hide();
+	jQuery(Kwetter.infoResultID).html(newDom.fadeIn('slow'));
+
+	Kwetter.following = following;
+	jQuery('#follow_button').click(Kwetter.follow);
+}
+
+Kwetter.follow = function(event)
+{
+	var action = jQuery(Kwetter.infoFormID).attr("action");
+	var command = Kwetter.following?'unfollow':'follow';
+	var form = jQuery(this);
+	var postargs = { avatar: Kwetter.authid.val(), follow: Kwetter.avatar.val(), command: command }
+	console.log(postargs);
+	jQuery.post(action, postargs, Kwetter.show_info);
+}
