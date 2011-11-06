@@ -309,16 +309,16 @@ Kwetter.show_info = function(data)
 	var form = jQuery(Kwetter.infoFormID);
 
 	if (following) {
-		followbutton = '<span id="follow_button">Stop Following</span>';
+		followbutton = '<span id="kwetter-follow-button" class="kwetter-button-unfollow">Stop Following</span>';
 	} else {
-		followbutton = '<span id="follow_button">Start Following</span>';
+		followbutton = '<span id="kwetter-follow-button" class="kwetter-button-follow">Start Following</span>';
 	}
 
-	out = '<span id="kwetter_follow_counts">' +
-		'<span id="kwetter_follows_count">Follows: ' + follows_count + '</span>' +
-		'<span id="kwetter_followers_count">Followers: ' + followers_count + '</span>' +
+	out = '<span id="kwetter-follow-counts">' +
+		'<span id="kwetter-follows-count">Follows: ' + follows_count + '</span>' +
+		'<span id="kwetter-followers-count">Followers: ' + followers_count + '</span>' +
 		'</span>' +
-		'<span id="kwetter_following">' + 
+		'<span id="kwetter-button-container">' + 
 		followbutton + 
 		'</span>';
 
@@ -326,7 +326,7 @@ Kwetter.show_info = function(data)
 	jQuery(Kwetter.infoResultID).html(newDom.fadeIn('slow'));
 
 	Kwetter.following = following;
-	jQuery('#follow_button').click(Kwetter.follow);
+	jQuery('#kwetter-follow-button').click(Kwetter.follow);
 }
 
 Kwetter.follow = function(event)
@@ -335,6 +335,5 @@ Kwetter.follow = function(event)
 	var command = Kwetter.following?'unfollow':'follow';
 	var form = jQuery(this);
 	var postargs = { avatar: Kwetter.authid.val(), follow: Kwetter.avatar.val(), command: command }
-	console.log(postargs);
-	jQuery.post(action, postargs, Kwetter.show_info);
+	jQuery.post(action, postargs, Kwetter.info);
 }

@@ -50,7 +50,6 @@
 		style="float: left; margin: 1em;"
 		tal:attributes="title view/member/fullname|nothing;
 		src python:'%s/portal_memberdata/portraits/%s' %(view.portal_url, view.safe_member_id());">
-		<div class="visualClear"></div>
 
 		<div class="kwetter-follow">
 			<form id="kwetter-follow" tal:attributes="action view/gateway">
@@ -63,6 +62,7 @@
 			</script>
 		</div>
 
+		<div class="visualClear"></div>
 		<p tal:condition="view/homefolder">
 		<a href="#" tal:attributes="href python:view.homefolder().absolute_url()"
 			i18n:translate="label_author_internal_home_page">Author's home page in this site&hellip;</a>

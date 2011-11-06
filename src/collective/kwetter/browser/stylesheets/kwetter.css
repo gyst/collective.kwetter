@@ -67,3 +67,44 @@ FORM#kwetter-update {
 	padding: 5px 5px 30px 5px;
 	margin: 0 0 10px 0;
 }
+
+#kwetter-follow-info {
+	width: 200px;
+	background-color: #eee;
+	padding: 3px;
+	float: right;
+	margin-top: 0;
+}
+
+#kwetter-follow-counts {
+	margin: 0 auto;
+	width: 150px;
+	background-color: #aaa;
+	display: block;
+}
+#kwetter-follows-count {
+	margin: 2px 3px;
+}
+#kwetter-followers-count {
+	margin: 2px 3px;
+}
+#kwetter-button-container {
+	display: block;
+	margin: 0 auto;
+}
+#kwetter-follow-button {
+	display: block;
+	width: 150px;
+	margin: 0 auto;
+	border: solid 1px white;
+	text-align: center;
+	font-weight: bold;
+}
+.kwetter-button-follow {
+	background-color: green;
+}
+.kwetter-button-unfollow {
+	background-color: orange;
+}
+
+
