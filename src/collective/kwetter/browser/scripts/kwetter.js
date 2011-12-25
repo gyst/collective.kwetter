@@ -307,16 +307,19 @@ Kwetter.show_info = function(data)
 	console.log(follows_count);
 	console.log(followers_count);
 	var form = jQuery(Kwetter.infoFormID);
+	var followbutton = '';
 
-	if (following) {
-		followbutton = '<span id="kwetter-follow-button" class="kwetter-button-unfollow">Stop Following</span>';
-	} else {
-		followbutton = '<span id="kwetter-follow-button" class="kwetter-button-follow">Start Following</span>';
+	if (! (Kwetter.authid.val() === Kwetter.avatar.val())) {
+		if (following) {
+			followbutton = '<span id="kwetter-follow-button" class="kwetter-button-unfollow">Stop Following</span>';
+		} else {
+			followbutton = '<span id="kwetter-follow-button" class="kwetter-button-follow">Start Following</span>';
+		}
 	}
 
 	out = '<span id="kwetter-follow-counts">' +
-		'<span id="kwetter-follows-count">Follows: ' + follows_count + '</span>' +
-		'<span id="kwetter-followers-count">Followers: ' + followers_count + '</span>' +
+		'<span id="kwetter-follows-count"><a href="@@following/' + Kwetter.avatar.val() + '">Follows: ' + follows_count + '</a></span>' +
+		'<span id="kwetter-followers-count"><a href="@@followers/' + Kwetter.avatar.val() + '">Followers: ' + followers_count + '</a></span>' +
 		'</span>' +
 		'<span id="kwetter-button-container">' + 
 		followbutton + 

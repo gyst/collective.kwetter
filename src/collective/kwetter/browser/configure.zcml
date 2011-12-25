@@ -32,14 +32,14 @@
         permission="zope2.View"
      />
 
-   <browser:page
+   <browser:view
         for="Products.CMFCore.interfaces.ISiteRoot"
         name="following"
         class=".views.Following"
         permission="zope2.View"
      />
 
-    <browser:page
+    <browser:view
         for="Products.CMFCore.interfaces.ISiteRoot"
         name="followers"
         class=".views.Followers"

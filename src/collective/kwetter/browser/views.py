@@ -106,10 +106,6 @@ class Author(KwetterBrowserPage):
     def gateway(self):
         return '%s/kwetter.gateway' % self.portal_url
 
-    def publishTraverse(self, request, name):
-        self._path.append(name)
-        return self
-
 class KwetterBrowserView(BrowserView):
 
     def __call__(self):
@@ -142,10 +138,10 @@ class KwetterBrowserView(BrowserView):
 class Timeline(KwetterBrowserView):
     template = ViewPageTemplateFile('templates/timeline.pt')
 
-class Following(KwetterBrowserView):
+class Following(Author):
     template = ViewPageTemplateFile('templates/following.pt')
 
-class Followers(KwetterBrowserView):
+class Followers(Author):
     template = ViewPageTemplateFile('templates/followers.pt')
 
 class Search(KwetterBrowserView):
