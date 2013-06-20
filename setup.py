@@ -18,7 +18,7 @@ setup(name='collective.kwetter',
         ],
       keywords='Zope Plone microblogging',
       author='Paul Stevens and Guido Stevens',
-      author_email='guido.stevens@cosent.net',
+      author_email='paul@nfg.nl',
       url='http://www.github.com/gyst/collective.kwetter',
       license='GPL',
       packages=find_packages('src'),
@@ -28,15 +28,12 @@ setup(name='collective.kwetter',
       zip_safe=False,
       install_requires=[
           'setuptools',
-          # -*- Extra requirements: -*-
           'Plone',
       ],
       entry_points="""
       # -*- Entry points: -*-
-
       [z3c.autoinclude.plugin]
       target = plone
       """,
       setup_requires=[],
-      paster_plugins=[],
       )
